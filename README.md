@@ -4,4 +4,4 @@
 - [Peach, Chanbormei Suy] [csuy@cmkl.ac.th]
 - [Palm, Teetuch Thawinphrai] [palmkungth@gmail.com]
 - [Pokpong, Sarutch Supaibulpipat] [ssupibu@cmkl.ac.th]
-## Project Topic: Study Planner App
+## Project Topic: Personal Nutrition App
