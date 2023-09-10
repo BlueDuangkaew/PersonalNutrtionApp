@@ -1,1 +1,22 @@
+** Legend:
+** e) short for extended by
+** i) short for including
 
+Use cases tree:
+    1) Enter meal information
+        e) input nutrition details
+        i) select date
+    2) Request a nutrition report 
+        i) select date
+    3) Enter nutrition intake targets/goals
+        i) input nutrition details
+        i) select date
+
+Naratives:
+    Request a nutrition report:
+        Main scenario:
+            1) User selects a date range
+            2) System presents a complied nutrition report on chosen time interval 
+        Extended scenario A (no relevant info):
+            1A) User selects a date range
+            2A) System notifies the user that the dates selected do not have suffient information to form a report
