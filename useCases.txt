@@ -13,6 +13,20 @@ Use cases tree:
         i) select date
 
 Naratives:
+
+    Enter meal information:
+	    Main scenario:
+            1) User enter what they ate
+            2) User select a specific time: breakfast, lunch, dinner, and/or snack
+            4) User select a specific date (dd/mm/yyyy)
+            3) System saves and store the data that will be used to create the report
+        Extended scenario A (no food in the database):
+            4A) System notifies the user that the food is not in the database
+            5A) System asks the user to manually input the food and its nutrition
+            6A) System saves and store the food into the database
+            7A) System saves and store the data that will be used to create the report
+
+
     Request a nutrition report:
         Main scenario:
             1) User selects a date range
