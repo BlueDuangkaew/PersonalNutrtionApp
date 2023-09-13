@@ -34,30 +34,3 @@ Naratives:
         Extended scenario A (no relevant info):
             1A) User selects a date range
             2A) System notifies the user that the dates selected do not have suffient information to form a report
-
-    Set Nutrition Intake Targets/Goals:
-	Main scenario:
-	    1. The system prompts the user to provide their nutrition details.
-	    2. The user inputs the nutrition details.
-	    3. The system requests the target date for the goals.
-	    4. The user specifies the desired target date.
-	    5. The system prompts the user to save the data.
-	    6. The user indicates they wish to record the goal (selects "Yes").
-
-	Extended scenario A (User Cancels the Goal):
-	    5A. The system prompts the user to save the entered data.
-	    6A. The user opts to cancel rather than proceed (selects "Cancel").
-
-	Extended scenario B (Invalid Nutrition Details):
-	    2B. The user enters invalid or incomplete nutrition details, the system prompts for valid information.
-	    3B. The system prompts for valid information.
-
-	Extended scenario C (Invalid Target Date):
-	    4C. The user enters an invalid or unrealistic target date.
-	    5C. The system prompts for a valid date.
-
-	Extended scenario D (User Chooses to Edit Details):
-	    5D. The user decides to edit the previously entered nutrition details or target date.
-
-	Extended scenario E (User Chooses to Discard Changes):
-	    5E. The user chooses to discard the entered nutrition details and target date.
