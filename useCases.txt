@@ -25,7 +25,9 @@ Naratives:
             5A) System asks the user to manually input the food and its nutrition
             6A) System saves and store the food into the database
             7A) System saves and store the data that will be used to create the report
-
+	Extanded scenario B (Invalid date):
+	    3B) User enters an invalid date
+	    4B) System notifies the user that they entered an invalid date
 
     Request a nutrition report:
         Main scenario:
