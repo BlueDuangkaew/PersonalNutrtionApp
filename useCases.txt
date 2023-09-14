@@ -36,8 +36,8 @@ Naratives:
         Extended scenario A (no relevant info):
             1A) User selects a date range
             2A) System notifies the user that the dates selected do not have suffient information to form a report
-		Extended scenario B (empty record)
-			1A) System tells that there is no recorded information to form a report and terminates the process
+	Extended scenario B (empty record)
+		1A) System tells that there is no recorded information to form a report and terminates the process
 
     Set Nutrition Intake Targets/Goals:
 	Main scenario:
