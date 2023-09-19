@@ -39,7 +39,7 @@ Naratives:
             1A) User selects a date range.
             2A) System notifies the user that the dates selected do not have suffient information to form a report.
 			3A) Returns to step 1.
-		Extanded scenario B (Invalid date):
+		Extended scenario B (Invalid date):
 	    	1B) User selects a date range.
 	    	2B) System notifies the user that they entered an invalid date, i.e. the future.
 			3A) Returns to step 1.
