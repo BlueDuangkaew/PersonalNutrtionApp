@@ -15,7 +15,7 @@ Use cases tree:
 Naratives:
 
     Enter meal information:
-	    Main scenario:
+        Main scenario:
             1) User enter what they ate.
             2) User select a specific time: breakfast, lunch, dinner, and/or snack.
             3) User select a specific date (dd/mm/yyyy).
@@ -25,26 +25,26 @@ Naratives:
             5A) System asks the user to manually input the food and its nutrition.
             6A) System saves and store the food into the database.
             7A) Continues at step 4.
-		Extanded scenario B (Invalid date):
-	    	3B) User enters an invalid date.
-	    	4B) System notifies the user that they entered an invalid date.
-			5B) Restarts step 3.
+        Extanded scenario B (Invalid date):
+            3B) User enters an invalid date.
+            4B) System notifies the user that they entered an invalid date.
+            5B) Restarts step 3.
 
     Request a nutrition report:
         Main scenario:
             1) System inquires the user which date would a report on.
-			2) User selects a date.
+            2) User selects a date.
             3) System presents a complied nutrition report on chosen time interval.
         Extended scenario A (no relevant info):
             1A) User selects a date range.
             2A) System notifies the user that the dates selected do not have suffient information to form a report.
-			3A) Returns to step 1.
-		Extended scenario B (Invalid date):
-	    	1B) User selects a date range.
-	    	2B) System notifies the user that they entered an invalid date, i.e. the future.
-			3A) Returns to step 1.
-		Extended scenario C (empty record)
-			1C) System tells that there is no recorded information to form a report and terminates the process.
+            3A) Returns to step 1.
+        Extended scenario B (Invalid date):
+            1B) User selects a date range.
+            2B) System notifies the user that they entered an invalid date, i.e. the future.
+            3A) Returns to step 1.
+        Extended scenario C (empty record)
+            1C) System tells that there is no recorded information to form a report and terminates the process.
 
     Set Nutrition Intake Targets/Goals:
         Main scenario:
