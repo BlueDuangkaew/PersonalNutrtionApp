@@ -5,4 +5,4 @@
 - [Palm, Teetuch Thawinphrai] [tthawin@cmkl.ac.th]
 - [Pokpong, Sarutch Supaibulpipat] [ssupibu@cmkl.ac.th]
 ## Project Topic: Personal Nutrition App
-![Functional diagram](Functional%20diagram.png)
+![Functional diagram](functionalDiagram.png)
