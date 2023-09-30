@@ -10,8 +10,8 @@ Function and variable names must be all lowercase. Words separated by an undersc
 
 ```python 3
 # Example
-def print_names()
-	pass
+    def print_names()
+pass
 	
 first_name = "first name"
 ```
@@ -35,5 +35,5 @@ Class names use the CapsWords style, capitalized at only the first letter of eac
 ```python 3
 # Example
 class MovieStars:
-	pass
+    pass
 ```
