@@ -6,6 +6,3 @@
 - [Pokpong, Sarutch Supaibulpipat] [ssupibu@cmkl.ac.th]
 ## Project Topic: Personal Nutrition App
 ![Functional diagram](/designProcess/functionalDiagram.png)
-
-- hi
-- 
