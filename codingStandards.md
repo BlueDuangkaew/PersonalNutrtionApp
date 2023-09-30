@@ -10,8 +10,8 @@ Function and variable names must be all lowercase. Words separated by an undersc
 
 ```python 3
 # Example
-    def print_names()
-pass
+def print_names()
+    pass
 	
 first_name = "first name"
 ```
