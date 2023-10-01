@@ -1,8 +1,7 @@
 # Coding Standard
-The coding standards for this project follows the guidelines in [python's pep 8](https://peps.python.org/pep-0008/#function-and-variable-names).
+The coding standards for this project follows the guidelines in [python's pep 8](https://peps.python.org/pep-0008/#function-and-variable-names). This document will cover only sections considered to be crucial in maintaining the consistency of code throughout the project. If more clarification is needed referring to the [pep 8's](https://peps.python.org/pep-0008/#function-and-variable-names) official documentation is advised.
 
-## Naming Conventions
-
+## [Naming Conventions](https://peps.python.org/pep-0008/#naming-conventions)
 
 ### [Function and Variable Names](https://peps.python.org/pep-0008/#function-and-variable-names)
 
@@ -37,3 +36,20 @@ Class names use the CapsWords style, capitalized at only the first letter of eac
 class MovieStars:
     pass
 ```
+
+### [Constants](https://peps.python.org/pep-0008/#constants)
+
+Constants must be in uppercase. Words are separated by an underscore.
+
+Example: `MAX_OVERFLOW`
+
+## [Whitespace in Expressions and Statements](https://peps.python.org/pep-0008/#whitespace-in-expressions-and-statements)
+
+### Spacing Inside Brackets
+
+The code after the opening bracket and before the closing bracket must be adjacent the brackets, no space in between. For example: 
+```python 3 
+def print_names(
+```
+
+Undecided
