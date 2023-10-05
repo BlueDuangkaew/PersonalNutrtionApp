@@ -1,0 +1,38 @@
+import sqlite3
+from datetime import datetime
+from sqlite3 import Error
+
+# Function to create the SQLite database and table
+def create_history_database():
+    conn = sqlite3.connect('meal_history.db')
+    cursor = conn.cursor()
+    print("history init")
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS meals (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date DATE,
+            meal_type TEXT,
+            foods TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+# Function to add a meal to the database
+def add_meal_to_database(date, meal_type, foods):
+    conn = sqlite3.connect('meal_history.db')
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO meals (date, meal_type, foods) VALUES (?, ?, ?)',
+                   (date.strftime('%Y-%m-%d'), meal_type, ', '.join(foods)))
+    print("meal added.")
+    conn.commit()
+    conn.close()
+
+# Function to retrieve all meals from the database
+def retrieve_all_meals():
+    conn = sqlite3.connect('meal_history.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM meals')
+    meals = cursor.fetchall()
+    conn.close()
+    return meals
