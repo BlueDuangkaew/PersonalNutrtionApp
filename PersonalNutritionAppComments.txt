@@ -1,0 +1,14 @@
+﻿Personal Nutrition App Comments
+
+
+2023-09-14: No use case diagram. Use cases really are not a “tree”.
+As I imagined them, nutrition goals do not have a target date.
+2023-09-21: Good functional flow.
+2023-09-28: I think you have too much coupling to the Execution Center. For instance, the reports could go directly to the Eating History and Food Database. They don’t need to go through the Execution Center. Since all reports seem to use both data stores, I might combine those components. 
+2023-10-04: Seems that your coding standards leave out some important categories of information, e.g. comments, function length, should ‘main’ be used, etc.
+
+Excellent that you documented your work division. You were the only team to do this.
+
+It seems that the DatabaseManager Public Functions document might belong in the Design Process subdirectory.
+
+
