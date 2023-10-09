@@ -1,10 +1,30 @@
-import food_db_manager
+'''
+food_validator.py
 
-def food_exists(food_name: str) -> bool:
+This module contains functions for validating food entries
+
+Functions:
+    food_exists
+'''
+
+import food_db_manager as db
+
+def check_food_exists(food_name: str) -> bool:
+    """
+    Checks if a given food name exists in the food database.
+
+    Arguments:
+        food_name: str
+            food name to search
+    
+    Returns:
+        True:
+            if found
+        False:
+            if not found
+    """
     try:
-        food_db_manager.find_food_name(food_name)
+        db.find_food_name(food_name)
     except:
         return False
     return True
-
-print(food_exists("apple"), food_exists("hi"))
