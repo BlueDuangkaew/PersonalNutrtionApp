@@ -1,3 +1,12 @@
+'''
+history_manager.py
+
+<<Add description here>>
+
+Functions:
+    add_meal_to_database
+    retrieve_all_meals
+'''
 import sqlite3
 from datetime import datetime
 from sqlite3 import Error
@@ -20,6 +29,16 @@ def create_history_database():
 
 # Function to add a meal to the database
 def add_meal_to_database(date, meal_type, foods):
+    '''
+    Adds a meal to the history database
+
+    Arguments:
+        date:
+        meal_type:
+        foods:
+    
+    Returns:
+    '''
     conn = sqlite3.connect('meal_history.db')
     cursor = conn.cursor()
     cursor.execute('INSERT INTO meals (date, meal_type, foods) VALUES (?, ?, ?)',
@@ -30,6 +49,11 @@ def add_meal_to_database(date, meal_type, foods):
 
 # Function to retrieve all meals from the database
 def retrieve_all_meals():
+    '''
+    Adds a meal to the history database
+    
+    Returns:
+    '''
     conn = sqlite3.connect('meal_history.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM meals')
