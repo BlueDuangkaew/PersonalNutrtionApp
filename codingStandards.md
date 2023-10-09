@@ -1,6 +1,16 @@
 # Coding Standard
 The coding standards for this project follows the guidelines in python's [PEP 8](https://peps.python.org/pep-0008/#function-and-variable-names). This document will cover only sections considered to be crucial in maintaining the consistency of code throughout the project. If more clarification is needed referring to the [PEP 8's](https://peps.python.org/pep-0008/#function-and-variable-names) official documentation is advised.
 
+## [Code Lay-out](https://peps.python.org/pep-0008/#code-lay-out)
+
+### [Indentation](https://peps.python.org/pep-0008/#indentation)
+
+Use 4 spaces per indentation level.
+
+### [Maximum Line Length](https://peps.python.org/pep-0008/#maximum-line-length)
+
+Limit all lines to a maximum of 79 characters.
+
 ## [Naming Conventions](https://peps.python.org/pep-0008/#naming-conventions)
 
 ### [Constants](https://peps.python.org/pep-0008/#constants)
@@ -88,9 +98,10 @@ Documentation strings or docstrings are explanations attributed to a code compon
 
 Docstrings must start with a one-line summary explaining of what the component does. One blank line must come after the summary.
 
-For class, methods, and functions docstrings start the line after name is declared.
+Docstrings must be the first line within the documented code component. For classes, methods, and functions this means docstrings start the line after name is declared.
 
 #### Function and Methods Docstrings
+
 Must contain and explain the following in order, unless the function/method doesn't contain them:
 1. Summary
 2. Arguments
@@ -100,15 +111,22 @@ Must contain and explain the following in order, unless the function/method does
 The summary should note the behavior and how to use the function/methods. All arguments, return values, and exceptions should be briefly explained. 
 
 #### Classes Docstrings
+
 Must contain the following in order, unless the class doesn't contain them:
 1. Summary
 2. List of public:
 	1. Methods
 	3. Class variables
 	2. Instance variables
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-The list of 
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Only the class variables have to be explained in the class variables. Public methods and instance variables only need to be listed in the class docstring. Details on the methods should be in their respective docstrings, and instance variables in the `__new__` or  `__init__` methods where they are initialized.
+
+#### Module Docstrings
+Must contain the following in order, unless the module doesn't contain them:
+1. Summary
+2. List of public:
+	1. Classes
+	3. Functions
 
 ## [Whitespace in Expressions and Statements](https://peps.python.org/pep-0008/#whitespace-in-expressions-and-statements)
 
@@ -162,7 +180,7 @@ if x == 4 : print(x , y) ; x , y = y , x
 However, when splicing, colons must be spaced equally on both sides and follows the spacing rules of a [binary operator](#binary-operators) of lowest priority. 
 
 #### Exception 2: Trailing Commas
-Use trailing commas only when necessary, i.e. single element tuple
+Use trailing commas only when necessary, i.e. single element tuple.
 
 ### Binary Operators
 
@@ -222,6 +240,3 @@ def munge() -> PosInt: ...
 def munge(input:AnyStr): ...
 def munge()->PosInt: ...
 ```
-```python 3
-```
-
