@@ -11,4 +11,6 @@ Excellent that you documented your work division. You were the only team to do t
 
 It seems that the DatabaseManager Public Functions document might belong in the Design Process subdirectory.
 
+2023-10-12: I don’t see any lab report from last week.
 
+You look like you are making good progress on your code. Please put the code AUTHOR in every header comment.
