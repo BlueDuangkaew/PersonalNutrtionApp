@@ -14,3 +14,5 @@ It seems that the DatabaseManager Public Functions document might belong in the 
 2023-10-12: I don’t see any lab report from last week.
 
 You look like you are making good progress on your code. Please put the code AUTHOR in every header comment.
+
+You’ve made your coding standards a lot more detailed. That’s good. Be sure you are following them.
