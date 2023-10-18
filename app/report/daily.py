@@ -8,6 +8,18 @@ import sqlite3
 __author__ = "Blue"
 
 def generate_report_by_date(start_date, end_date):
+    '''
+    <<function brief description>>
+
+    Arguments:
+        nutrition_type:
+            <<brief description>> 
+        max_value:
+            <<brief description>> 
+    
+    Returns:
+        <<brief description>> 
+    '''
     eating_history_conn = sqlite3.connect('eating_history.db')
     eating_history_cursor = eating_history_conn.cursor()
     

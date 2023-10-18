@@ -13,7 +13,19 @@ from sqlite3 import Error
 
 # Function to create the SQLite database and table
 def create_history_database():
+<<<<<<< HEAD
     conn = sqlite3.connect('meal_history.db')
+=======
+    attributes = ["INTEGER PRIMARY KEY AUTOINCREMENT", 
+                  "DATE", 
+                  "INTEGER", 
+                  "TEXT"]
+    column_info = (", ").join(
+        [" ".join(tup) for tup in zip(COLUMNS, attributes)]
+    )
+
+    conn = sqlite3.connect("meal_history.db")
+>>>>>>> e2aefcc (more code beautifying)
     cursor = conn.cursor()
     print("history init")
     cursor.execute('''
