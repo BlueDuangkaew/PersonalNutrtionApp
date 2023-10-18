@@ -1,5 +1,5 @@
 Delagation : 
-    Peach - food database
-    Blue - report generator
-    Palm - eating history database
-    Pokpong - execution center
+    Pokpong - Execution Center, Food Validation
+    Plam - Eating History Database Manager, UI
+    Peach - Food Database Manager, UI
+    Blue - Daily Report Generator, Target Report Generator, Daily Nutrition Calculator
