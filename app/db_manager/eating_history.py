@@ -28,7 +28,9 @@ def create_history_database():
                   "DATE", 
                   "INTEGER", 
                   "TEXT"]
-    column_info = (", ").join([" ".join(tup) for tup in zip(COLUMNS, attributes)])
+    column_info = (", ").join(
+        [" ".join(tup) for tup in zip(COLUMNS, attributes)]
+    )
 
     conn = sqlite3.connect("meal_history.db")
     cursor = conn.cursor()

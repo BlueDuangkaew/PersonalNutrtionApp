@@ -19,7 +19,9 @@ DB_NAME = "food_database"
 
 # Database Management Functions
 
-def create_server_connection(host_name, user_name, user_password, db_name=None):
+def create_server_connection(
+        host_name, user_name, user_password, db_name=None
+    ):
     try:
         connection = mysql.connector.connect(
             host=host_name,
