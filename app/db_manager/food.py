@@ -11,6 +11,8 @@ import mysql.connector
 from mysql.connector import Error
 import pandas as pd
 
+__author__ = "Peach"
+
 # Constants
 PW = "@1992!"
 DB_NAME = "food_database"

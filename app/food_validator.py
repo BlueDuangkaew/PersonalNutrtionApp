@@ -7,7 +7,9 @@ Functions:
     food_exists
 '''
 
-import food_db_manager as db
+import db_manager.food as db
+
+__author__ = "Pokpong"
 
 def check_food_exists(food_name: str) -> bool:
     """
