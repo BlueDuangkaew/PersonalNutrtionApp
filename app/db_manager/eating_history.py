@@ -6,26 +6,17 @@ history_manager.py
 Functions:
     add_meal_to_database
     retrieve_all_meals
+    find_meal_date
 '''
 import sqlite3
 from datetime import datetime
 from sqlite3 import Error
 
+__author__ = "Plam"
+
 # Function to create the SQLite database and table
 def create_history_database():
-<<<<<<< HEAD
-    conn = sqlite3.connect('meal_history.db')
-=======
-    attributes = ["INTEGER PRIMARY KEY AUTOINCREMENT", 
-                  "DATE", 
-                  "INTEGER", 
-                  "TEXT"]
-    column_info = (", ").join(
-        [" ".join(tup) for tup in zip(COLUMNS, attributes)]
-    )
-
     conn = sqlite3.connect("meal_history.db")
->>>>>>> e2aefcc (more code beautifying)
     cursor = conn.cursor()
     print("history init")
     cursor.execute('''
@@ -40,7 +31,7 @@ def create_history_database():
     conn.close()
 
 # Function to add a meal to the database
-def add_meal_to_database(date, meal_type, foods):
+def add_meal_to_database(date: datetime, meal_type: int, foods: list):
     '''
     Adds a meal to the history database
 
@@ -53,7 +44,8 @@ def add_meal_to_database(date, meal_type, foods):
     '''
     conn = sqlite3.connect('meal_history.db')
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO meals (date, meal_type, foods) VALUES (?, ?, ?)',
+    cursor.execute('INSERT INTO meals (date, meal_type, foods) \
+                   VALUES (?, ?, ?)',
                    (date.strftime('%Y-%m-%d'), meal_type, ', '.join(foods)))
     print("meal added.")
     conn.commit()
@@ -62,7 +54,7 @@ def add_meal_to_database(date, meal_type, foods):
 # Function to retrieve all meals from the database
 def retrieve_all_meals():
     '''
-    Adds a meal to the history database
+    Retrieves all meals from the history database
     
     Returns:
     '''
