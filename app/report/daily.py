@@ -5,6 +5,8 @@ This module contains functions for reporting nutrition from a date range
 '''
 import sqlite3
 
+__author__ = "Blue"
+
 def generate_report_by_date(start_date, end_date):
     eating_history_conn = sqlite3.connect('eating_history.db')
     eating_history_cursor = eating_history_conn.cursor()
