@@ -27,6 +27,6 @@ def check_food_exists(food_name: str) -> bool:
     """
     try:
         db.find_food_name(food_name)
-    except:
+    except Exception:
         return False
     return True
