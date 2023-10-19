@@ -22,9 +22,7 @@ def generate_report_by_goal(nutrition_type, max_value):
     '''
     eating_history_conn = sqlite3.connect('eating_history.db')
     eating_history_cursor = eating_history_conn.cursor()
-    
     operator = '<=' if nutrition_type == 'calories' else '>='
-    
     eating_history_cursor.execute(f'''
         SELECT date, SUM(food.{nutrition_type} * servings) 
         AS total_{nutrition_type}
@@ -35,7 +33,5 @@ def generate_report_by_goal(nutrition_type, max_value):
     ''', (max_value,))
     
     report = eating_history_cursor.fetchall()
-    
     eating_history_conn.close()
-    
     return report
