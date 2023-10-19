@@ -1,0 +1,7 @@
+pylint food_validator.py
+************* Module food_validator
+food_validator.py:10:0: E0401: Unable to import 'db_manager.food' (import-error)
+food_validator.py:30:4: W0702: No exception type(s) specified (bare-except)
+
+------------------------------------------------------------------
+Your code has been rated at 2.50/10 (previous run: 1.25/10, +1.20)
