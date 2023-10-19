@@ -1,7 +1,7 @@
 '''
 history_manager.py
 
-<<Add description here>>
+<<Create and manager the user's eating history.>>
 
 Functions:
     add_meal_to_database
@@ -10,9 +10,8 @@ Functions:
 '''
 import sqlite3
 from datetime import datetime
-from sqlite3 import Error
 
-__author__ = "Plam"
+__author__ = "Palm"
 
 # Function to create the SQLite database and table
 def create_history_database():
