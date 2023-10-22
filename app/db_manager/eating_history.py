@@ -71,9 +71,12 @@ def retrieve_all_meals():
     conn = sqlite3.connect("meal_history.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM meals")
-    meals = list(map(format_row, cursor.fetchall()))
+    meals = cursor.fetchall()
     conn.close()
-    return meals
+
+    if not meals:
+        raise Exception("No matching data.")
+    return list(map(format_row, meals))
 
 def find_meal_date(date: datetime, meal_type: int) -> dict:
     '''
@@ -95,4 +98,7 @@ def find_meal_date(date: datetime, meal_type: int) -> dict:
                    AND {COLUMNS[2]} = {meal_type}''')
     meal = cursor.fetchone()
     conn.close()
+        
+    if meal is None:
+        raise Exception("No matching data.")
     return format_row(meal)
