@@ -54,7 +54,7 @@ def add_meal_to_database(date: datetime, meal_type: int, foods: list):
     conn = sqlite3.connect("meal_history.db")
     cursor = conn.cursor()
     cursor.execute(f'''INSERT INTO meals ({", ".join(COLUMNS[1:4])}) 
-                   VALUES ({date.strftime("%Y-%m-%d")}, 
+                   VALUES ("{date.strftime("%Y-%m-%d")}", 
                            {meal_type}, 
                            "{", ".join(foods)}")''')
     print("meal added.")
@@ -93,6 +93,8 @@ def find_meal_date(date: datetime, meal_type: int) -> dict:
     cursor.execute(f'''SELECT * FROM meals 
                    WHERE {COLUMNS[1]} = "{date.strftime("%Y-%m-%d")}" 
                    AND {COLUMNS[2]} = {meal_type}''')
-    meal = format_row(cursor.fetchone())
+    meal = cursor.fetchone()
     conn.close()
-    return meal
+    if meal is None:
+        raise Exception("No matching data.")
+    return format_row(meal)
