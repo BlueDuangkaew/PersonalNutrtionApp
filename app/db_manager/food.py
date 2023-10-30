@@ -211,6 +211,48 @@ def main():
         connection.close()
         print("MySQL connection is closed")
 
-if __name__ == "__main__":
-    main()
+#to find food name in the databse
+def find_food_name(connection, food_name):
+    if connection:
+        with connection.cursor() as cursor:
+            # for the SQL query to select rows with the specified food_name
+            query = f"SELECT * FROM food WHERE food_name = '{food_name}'"
 
+            cursor.execute(query)
+            rows = cursor.fetchall()
+
+            if rows:
+                print(f"Found {len(rows)} matching records for food name '{food_name}':")
+                for row in rows:
+                    print(row)
+            else:
+                print(f"No records found for food name '{food_name}'")
+
+#to add new food name and its values
+def add_food(connection, food_info):
+    if connection:
+        with connection.cursor() as cursor:
+            # get food info from the dictionary
+            food_name = food_info.get('food_name')
+            calories = food_info.get('calories')
+            sodium = food_info.get('sodium')
+
+            if food_name and calories is not None and sodium is not None:
+                # for the SQL query to insert the food information into the 'food' table
+                insert_query = f"INSERT INTO food (food_name, calories, sodium) VALUES ('{food_name}', {calories}, {sodium});"
+
+                try:
+                    cursor.execute(insert_query)
+                    connection.commit()
+                    print(f"Food '{food_name}' added to the database.")
+                except Error as e:
+                    print(f"Error adding food to the database: {e}")
+            else:
+                print("Invalid food information. Make sure 'food_name' is provided and 'calories' and 'sodium' are int values.")
+
+
+if __name__ == "__main__":
+    connection = create_server_connection("localhost", "root", PW, DB_NAME)
+    if connection:
+        find_food_name(connection, "pizza")
+        connection.close()
