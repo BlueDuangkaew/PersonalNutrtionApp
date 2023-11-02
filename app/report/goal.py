@@ -3,10 +3,40 @@ nutrition_report_byGoal.py
 
 This module contains functions for reporting nutrition from the user goal set
 '''
-import sqlite3
+from db_manager.eating_history import *
+from db_manager.food import *
 
 __author__ = "Blue"
 
+def generate_target_report():
+    '''
+    <<function brief description>>
+
+    Arguments:
+        nutrition_type:
+            <<brief description>> 
+        max_value:
+            <<brief description>> 
+    
+    Returns:
+        <<brief description>> 
+    '''
+    #Ask the user which nutrition type they want to see
+    #1. Calories
+    #2. Sodium (mg)
+    #3. Carb (g)
+    #4. Fats (g)
+
+    #Ask the user for the amount of nutrition target
+    #>, <
+
+    #Ask the user for the date range
+
+    #print the report
+    #Date
+    
+
+""""
 def generate_report_by_goal(nutrition_type, max_value):
     '''
     <<function brief description>>
@@ -35,3 +65,4 @@ def generate_report_by_goal(nutrition_type, max_value):
     report = eating_history_cursor.fetchall()
     eating_history_conn.close()
     return report
+"""
