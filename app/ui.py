@@ -36,7 +36,7 @@ def _or_list(items: list[str]):
     return str_list
 
 class DateInput():
-    format = "%Y/%m/%d"
+    format = "%Y-%m-%d"
     format_prompt = "YYYY/MM/DD"
 
     def get(self):
@@ -99,31 +99,29 @@ class MealtimeInput(DateInput):
                     choice = input("Invalid input. Enter y or n: ")
 
 class FoodInput():
-    def __init__(self, info_types: tuple[str, ...]) -> None:
-        self.info_types = info_types
+    def __init__(self, nuitrition_types: tuple[str, ...]) -> None:
+        self.nuitrition_types = nuitrition_types
         self.foods = []
         
     def getter(self):
         while True:
             user_food = input("Enter a food item (or 'done' to finish): ")
             if user_food.lower() == 'done':
-                if not self.foods:
-                    print("No food entered. Returning to main menu.")
-                else:
-                    print("Foods:\n\t{}".format('\n\t'.join(self.foods)))
                 break
             elif user_food in self.foods:
                 print("This food has already been inputted")
             else:
                 self.foods.append(user_food)
-                yield user_food
                 print(f"{user_food} added.")
+                yield user_food
+    
+    def get_list(self):
+        return self.foods
 
     def new_type(self):
-        print(f"No data on {self.foods[-1]}. Please fill in the following:")
-        food_info = {self.info_types[0]: self.foods[-1]}
-        for nutrition in self.info_types[1:]:
-            food_info.update({nutrition: _parse_input(float, f"\t{nutrition}: ")})
+        food_info = {"food": self.foods[-1]}
+        for nutrition in self.nuitrition_types:
+            food_info.update({nutrition: _parse_input(float, f"{nutrition}: ")})
         return food_info
 
 def ask_nutrition_type(nutrition_types: str):
@@ -145,19 +143,21 @@ def ask_nutrition_type(nutrition_types: str):
 
 # Define the main function
 def main_menu():
-    options = (
-        "Enter a meal", "Daily report", 
-        "Goal report",  "Exit"
-        )
-    indices = []
-    print("\nFood and Nutrition Tracker")
-    for i, opt in enumerate(options):
-        print(f"{i + 1}. {opt}")
-        indices.append(str(i + 1))
     while True:
+        options = (
+            "Enter a meal", "Daily report", 
+            "Goal report",  "Exit"
+            )
+        indices = []
+        print("\nFood and Nutrition Tracker")
+        for i, opt in enumerate(options):
+            print(f"{i + 1}. {opt}")
+            indices.append(str(i + 1))
+
         # Prompt the user to select an option
         choice = _parse_input(int, f"Select an option ({'/'.join(indices)}): ")
-        if str(choice) not in indices:
-            print(f"Invalid choice. Please select {_or_list(indices)}")
+
+        if choice not in indices:
+            print(f"Invalid choice. Please select {_or_list(choice)}")
         else:
             return choice - 1

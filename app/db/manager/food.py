@@ -8,7 +8,6 @@ __author__ = "Peach"
 
 # Constants
 DB_FILE = "food_database.db"
-FOOD_INFO_KEYS = ("food_name", "calories", "fat", "carbs", "sodium")
 
 # Database Management Functions
 
@@ -42,32 +41,33 @@ def fetch_all_rows(connection, query):
     for row in rows:
         print(row)
 
-def add_food(connection, food_info: dict):
-    values = tuple(food_info.values())
-    print(values)
-    if (tuple(food_info.keys()) != FOOD_INFO_KEYS 
-            or None in values 
-            or 0 in values):
-        print("Invalid food information. Make sure 'food_name', 'calories', and 'sodium' are provided.")
-        return
+def add_food(connection, food_info):
+    food_name = food_info.get('food_name')
+    calories = food_info.get('calories')
+    sodium = food_info.get('sodium')
 
-    insert_query = f"""
-    INSERT INTO food (food_name, calories, sodium)
-    VALUES ('{values[0]}', {', '.join(map(str, values[1:]))});
-    """
-    try:
-        execute_query(connection, insert_query)
-        print(f"Food '{values[0]}' added to the database.")
-    except sqlite3.Error as e:
-        print(f"Error adding food to the database: {e}")
+    if food_name and calories is not None and sodium is not None:
+        insert_query = f"""
+        INSERT INTO food (food_name, calories, sodium)
+        VALUES ('{food_name}', {calories}, {sodium});
+        """
+        try:
+            execute_query(connection, insert_query)
+            print(f"Food '{food_name}' added to the database.")
+        except sqlite3.Error as e:
+            print(f"Error adding food to the database: {e}")
+    else:
+        print("Invalid food information. Make sure 'food_name', 'calories', and 'sodium' are provided.")
 
 def find_food_name(connection, food_name):
     query = f"SELECT * FROM food WHERE food_name = '{food_name}'"
     rows = execute_query(connection, query)
-
-    if not rows:
-        raise Exception("No matching data.")
-    return rows
+    if rows:
+        print(f"Found {len(rows)} matching records for food name '{food_name}':")
+        for row in rows:
+            print(row)
+    else:
+        print(f"No records found for food name '{food_name}'")
 
 # Example usage
 if __name__ == "__main__":

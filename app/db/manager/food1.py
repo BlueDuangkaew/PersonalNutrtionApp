@@ -50,7 +50,7 @@ def fetch_all_rows(connection, query):
         print(row)
 
 # Check if a table exists in the SQLite database.
-def check_table_in_dbs(connection, table_name):
+def check_table_exists(connection, table_name):
    
     check_query = f"SELECT count(name) FROM sqlite_master WHERE type='table' AND name='{table_name}'"
     cursor = connection.cursor()
@@ -176,7 +176,7 @@ def main():
 
     # Check if the food table exists, if not, create it and insert the data
     if connection:
-        if not check_table_in_dbs(connection, 'food'):
+        if not check_table_exists(connection, 'food'):
             create_and_populate_food_table(connection)
 
         # Display all contents of the food table
