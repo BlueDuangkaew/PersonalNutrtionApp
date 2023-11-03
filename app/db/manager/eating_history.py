@@ -15,7 +15,7 @@ from sqlite3 import Error
 __author__ = "Plam, Pokpong"
 
 _COLUMNS = ("id", "date", "meal_type", "foods")
-MEAL_TYPES = ("Breakfast", "Lunch", "Dinner")
+MEAL_TYPES = ("breakfast", "lunch", "dinner")
 
 def format_row(row: tuple) -> dict:
     # This function formats the a row of data from the database
