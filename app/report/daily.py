@@ -30,21 +30,15 @@ def generate_daily_report():
         # Get today's date
         today = datetime.today().strftime('%Y-%m-%d')
 
-        # Retrieve meals from the eating history database
-        breakfast_meal = find_meal_date(today, meal_type=0)  # Assuming 0 represents breakfast
-        lunch_meal = find_meal_date(today, meal_type=1)  # Assuming 1 represents lunch
-        dinner_meal = find_meal_date(today, meal_type=2)  # Assuming 2 represents dinner
+        # Retrieve meals from the eating history database just for today date
+        today_meal = find_meal_date(today)
 
         # Retrieve food details using food names
-        breakfast_food = [retrieve_food_by_name(food_name) for food_name in breakfast_meal['foods']]
-        lunch_food = [retrieve_food_by_name(food_name) for food_name in lunch_meal['foods']]
-        dinner_food = [retrieve_food_by_name(food_name) for food_name in dinner_meal['foods']]
+        food_details = [retrieve_food_by_name(food_name) for food_name in breakfast_meal['foods']]
 
         # Print the report
         print(f"Daily Report for {date.strftime('%Y-%m-%d')}")
         print(f"Breakfast: {breakfast['foods']}")
-        print(f"Lunch: {lunch['foods']}")
-        print(f"Dinner: {dinner['foods']}")
 
     except Exception as e:
         print(f"Error: {e}")
