@@ -1,0 +1,5 @@
+************* Module eating_history
+eating_history.py:17:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+------------------------------------------------------------------
+Your code has been rated at 9.58/10 (previous run: 9.20/10, +0.38)

@@ -1,0 +1,11 @@
+pylint goal.py 
+************* Module goal
+goal.py:25:0: C0303: Trailing whitespace (trailing-whitespace)
+goal.py:27:0: C0303: Trailing whitespace (trailing-whitespace)
+goal.py:36:0: C0303: Trailing whitespace (trailing-whitespace)
+goal.py:38:0: C0303: Trailing whitespace (trailing-whitespace)
+goal.py:40:0: C0303: Trailing whitespace (trailing-whitespace)
+goal.py:41:0: C0304: Final newline missing (missing-final-newline)
+
+------------------------------------------------------------------
+Your code has been rated at 4.00/10 (previous run: 4.00/10, +0.00)

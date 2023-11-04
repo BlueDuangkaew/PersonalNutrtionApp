@@ -1,0 +1,5 @@
+Delagation : 
+    Pokpong - Execution Center, Food Validation
+    Plam - Eating History Database Manager, UI
+    Peach - Food Database Manager, UI
+    Blue - Daily Report Generator, Target Report Generator, Daily Nutrition Calculator

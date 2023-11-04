@@ -1,0 +1,6 @@
+************* Module eating_history
+eating_history.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
+eating_history.py:13:0: W0611: Unused Error imported from sqlite3 (unused-import)
+
+-----------------------------------
+Your code has been rated at 9.20/10

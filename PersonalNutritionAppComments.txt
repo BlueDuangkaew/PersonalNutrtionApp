@@ -1,0 +1,37 @@
+﻿Personal Nutrition App Comments
+
+
+2023-09-14: No use case diagram. Use cases really are not a “tree”.
+As I imagined them, nutrition goals do not have a target date.
+2023-09-21: Good functional flow.
+2023-09-28: I think you have too much coupling to the Execution Center. For instance, the reports could go directly to the Eating History and Food Database. They don’t need to go through the Execution Center. Since all reports seem to use both data stores, I might combine those components. 
+2023-10-04: Seems that your coding standards leave out some important categories of information, e.g. comments, function length, should ‘main’ be used, etc.
+
+Excellent that you documented your work division. You were the only team to do this.
+
+It seems that the DatabaseManager Public Functions document might belong in the Design Process subdirectory.
+
+2023-10-12: I don’t see any lab report from last week.
+
+You look like you are making good progress on your code. Please put the code AUTHOR in every header comment.
+
+You’ve made your coding standards a lot more detailed. That’s good. Be sure you are following them.
+
+2023-10-19: Where is your functional test plan???
+
+Good to see that you are continuing to refine your architecture diagram and understanding.
+
+Also good that you are continuing to work on your code. “More beautifying” is not the best commit comment, though!
+
+
+2023-10-26: Code review report is a bit skimpy... and self-congratulatory. Didn’t find many issues!
+
+Your static analysis runs should not be in the source code directory. Also, it seems that you have not eliminated all the problems.
+
+I still do not see any test plan.
+
+Excellent commit comments for source code changes.
+
+2023-11-02: Good test plan but putting it on Google Docs is not a good way to do configuration management. You should put the file into GitHub.
+
+I don’t see any deployment plan.

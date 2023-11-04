@@ -1,0 +1,10 @@
+pylint daily.py
+************* Module daily
+daily.py:25:0: C0303: Trailing whitespace (trailing-whitespace)
+daily.py:32:0: C0303: Trailing whitespace (trailing-whitespace)
+daily.py:34:0: C0303: Trailing whitespace (trailing-whitespace)
+daily.py:36:0: C0303: Trailing whitespace (trailing-whitespace)
+daily.py:37:0: C0304: Final newline missing (missing-final-newline)
+
+------------------------------------------------------------------
+Your code has been rated at 4.44/10 (previous run: 4.44/10, +0.00)
