@@ -3,8 +3,8 @@ nutrition_report_byGoal.py
 
 This module contains functions for reporting nutrition from the user goal set
 '''
-from db_manager.eating_history import *
-from db_manager.food import *
+from db.manager.eating_history import *
+from db.manager.food import *
 
 __author__ = "Blue"
 
@@ -21,48 +21,48 @@ def generate_target_report():
     Returns:
         <<brief description>> 
     '''
-    #Ask the user which nutrition type they want to see
-    #1. Calories
-    #2. Sodium (mg)
-    #3. Carb (g)
-    #4. Fats (g)
+    try:
+        # Ask the user which nutrition type they want to see
+        nutrition_type = input("Which nutrition type would you like to see?\n"
+                               "1. Calories\n"
+                               "2. Sodium (mg)\n"
+                               "3. Carbohydrates (g)\n"
+                               "4. Fats (g)\n")
 
-    #Ask the user for the amount of nutrition target
-    #>, <
+        # Ask the user for the amount of nutrition target
+        target_amount = float(input("Please enter the target amount: "))
 
-    #Ask the user for the date range
+        # Ask the user for the date range
+        start_date = input("Enter the start date (YYYY-MM-DD): ")
+        end_date = input("Enter the end date (YYYY-MM-DD): ")
 
-    #print the report
-    #Date
+        # Retrieve meals from the eating history database
+        meals = find_eating_history_by_date(start_date, end_date)
+
+        # Retrieve food details using food names and calculate total nutrition intake
+        total_nutrition = 0
+        for meal in meals:
+            food_list = [retrieve_food_by_name(food_name) for food_name in meal['foods']]
+            if nutrition_type == '1':
+                total_nutrition += sum(food['calories'] for food in food_list)
+            elif nutrition_type == '2':
+                total_nutrition += sum(food['sodium'] for food in food_list)
+            elif nutrition_type == '3':
+                total_nutrition += sum(food['carbohydrates'] for food in food_list)
+            elif nutrition_type == '4':
+                total_nutrition += sum(food['fats'] for food in food_list)
+
+        # Print the report
+        print(f"Target Report for {start_date} to {end_date}")
+        if nutrition_type == '1':
+            print(f"Total Calories: {total_nutrition} calories")
+        elif nutrition_type == '2':
+            print(f"Total Sodium: {total_nutrition} mg")
+        elif nutrition_type == '3':
+            print(f"Total Carbohydrates: {total_nutrition} grams")
+        elif nutrition_type == '4':
+            print(f"Total Fats: {total_nutrition} grams")
+
+    except Exception as e:
+        print(f"Error: {e}")
     
-
-""""
-def generate_report_by_goal(nutrition_type, max_value):
-    '''
-    <<function brief description>>
-
-    Arguments:
-        nutrition_type:
-            <<brief description>> 
-        max_value:
-            <<brief description>> 
-    
-    Returns:
-        <<brief description>> 
-    '''
-    eating_history_conn = sqlite3.connect('eating_history.db')
-    eating_history_cursor = eating_history_conn.cursor()
-    operator = '<=' if nutrition_type == 'calories' else '>='
-    eating_history_cursor.execute(f'''
-        SELECT date, SUM(food.{nutrition_type} * servings) 
-        AS total_{nutrition_type}
-        FROM eating_history
-        INNER JOIN food ON eating_history.food_id = food.food_id
-        GROUP BY date
-        HAVING total_{nutrition_type} {operator} ?
-    ''', (max_value,))
-    
-    report = eating_history_cursor.fetchall()
-    eating_history_conn.close()
-    return report
-"""

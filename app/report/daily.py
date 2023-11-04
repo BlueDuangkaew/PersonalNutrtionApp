@@ -4,8 +4,8 @@ nutrition_report_byDate.py
 This module contains functions for reporting nutrition from a date range
 '''
 
-from db_manager.eating_history import *
-from db_manager import food
+from db.manager.eating_history import *
+from db.manager.food import *
 import datetime
 import plotly.graph_objects as go
 
