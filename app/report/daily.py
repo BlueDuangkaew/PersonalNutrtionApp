@@ -30,43 +30,26 @@ def generate_daily_report():
         # Get today's date
         today = datetime.today().strftime('%Y-%m-%d')
 
-        # Retrieve meals from the eating history database just for today date
+        # Retrieve today meals from the eating_history.py
         today_meal = find_meal_date(today)
+        today_breakfast = find_meal_date(today)
 
         # Retrieve food details using food names
-        food_details = [retrieve_food_by_name(food_name) for food_name in breakfast_meal['foods']]
+        food_details = [find_food_name(food_name) for food_name in today_meal['foods']]
+
+        # Calculate total calories for each meal
+        total_calories = sum(food['calories'] for food in food_details)
 
         # Print the report
         print(f"Daily Report for {date.strftime('%Y-%m-%d')}")
-        print(f"Breakfast: {breakfast['foods']}")
+        print(f"Breakfast: {food_details['foods']}")
+
+        print(f"Breakfast:")
+        for food in food_details:
+            if food['meal_type'] == "Breakfast"
+            print(f"- {food['name']}: {food['calories']} calories")
+        
+        print(f"Today Total Calories: {total_calories} calories")
 
     except Exception as e:
         print(f"Error: {e}")
-
-
-""""
-def generate_dialy_report(today_date):
-    '''
-    <<function brief description>>
-
-    Arguments:
-        nutrition_type:
-            <<brief description>> 
-        max_value:
-            <<brief description>> 
-    
-    Returns:
-        <<brief description>> 
-    '''
-    eating_history_conn = sqlite3.connect('eating_history.db')
-    eating_history_cursor = eating_history_conn.cursor()
-    eating_history_cursor.execute('''
-        SELECT date, food.name, servings
-        FROM eating_history
-        INNER JOIN food ON eating_history.food_id = food.food_id
-        WHERE date ?
-    ''', (today_date))
-    report = eating_history_cursor.fetchall()
-    eating_history_conn.close()
-    return report
-"""

@@ -221,12 +221,10 @@ def add_food(connection, food_info):
 def find_food_name(connection, food_name):
     query = f"SELECT * FROM food WHERE food_name = '{food_name}'"
     rows = execute_query(connection, query)
-    if rows:
-        print(f"Found {len(rows)} matching records for food name '{food_name}':")
-        for row in rows:
-            print(row)
-    else:
-        print(f"No records found for food name '{food_name}'")
+
+    if not rows:
+        raise Exception("No matching data.")
+    return rows
 
 if __name__ == "__main__":
     main()
