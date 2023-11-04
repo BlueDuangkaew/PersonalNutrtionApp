@@ -11,7 +11,7 @@ import db_manager.food as db
 
 __author__ = "Pokpong"
 
-def check_food_exists(food_name: str) -> bool:
+def food_in_db(food_name: str) -> bool:
     """
     Checks if a given food name exists in the food database.
 
@@ -26,7 +26,10 @@ def check_food_exists(food_name: str) -> bool:
             if not found
     """
     try:
-        db.find_food_name(food_name)
-    except Exception:
-        return False
+        find_food_name(food_name)
+    except Exception as ex:
+        if str(ex) == "No matching data.":
+            return False
+        else:
+            print(str(ex))
     return True
