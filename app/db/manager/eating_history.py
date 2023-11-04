@@ -9,16 +9,17 @@ Functions:
     find_meal_date
 '''
 import sqlite3
-from datetime import datetime
+from datetime import date
 from sqlite3 import Error
 
 __author__ = "Plam, Pokpong"
 
-COLUMNS = ("id", "date", "meal_type", "foods")
+_COLUMNS = ("id", "date", "meal_type", "foods")
+MEAL_TYPES = ("Breakfast", "Lunch", "Dinner")
 
 def format_row(row: tuple) -> dict:
     # This function formats the a row of data from the database
-    meal = dict(zip(COLUMNS, row))
+    meal = dict(zip(_COLUMNS, row))
     meal["foods"] = meal["foods"].split(", ")
     return meal
 
@@ -26,10 +27,10 @@ def format_row(row: tuple) -> dict:
 def create_history_database():
     attributes = ["INTEGER PRIMARY KEY AUTOINCREMENT", 
                   "DATE", 
-                  "INTEGER", 
+                  "TEXT", 
                   "TEXT"]
     column_info = (", ").join(
-        [" ".join(tup) for tup in zip(COLUMNS, attributes)]
+        [" ".join(tup) for tup in zip(_COLUMNS, attributes)]
     )
 
     conn = sqlite3.connect("meal_history.db")
@@ -40,7 +41,7 @@ def create_history_database():
     conn.close()
 
 # Function to add a meal to the database
-def add_meal_to_database(date: datetime, meal_type: int, foods: list):
+def add_meal_to_database(date: date, meal_type: str, foods: list):
     '''
     Adds a meal to the history database
 
@@ -53,9 +54,9 @@ def add_meal_to_database(date: datetime, meal_type: int, foods: list):
     '''
     conn = sqlite3.connect("meal_history.db")
     cursor = conn.cursor()
-    cursor.execute(f'''INSERT INTO meals ({", ".join(COLUMNS[1:4])}) 
+    cursor.execute(f'''INSERT INTO meals ({", ".join(_COLUMNS[1:4])}) 
                    VALUES ("{date.strftime("%Y-%m-%d")}", 
-                           {meal_type}, 
+                           "{meal_type}", 
                            "{", ".join(foods)}")''')
     print("meal added.")
     conn.commit()
@@ -78,15 +79,13 @@ def retrieve_all_meals():
         raise Exception("No matching data.")
     return list(map(format_row, meals))
 
-def find_meal_date(date: datetime, meal_type: int) -> dict:
+def find_meal_date(date: date) -> list:
     '''
-    Finds a meal by date and meal time and returns a meal if found.
+    Finds a meal by date and returns a meal if found.
     
     Arguments:
         date:
             The date of the meal.
-        meal_type:
-            The meal time/type.
 
     Returns:
         A dictionary conatining the info on the meal.
@@ -94,11 +93,10 @@ def find_meal_date(date: datetime, meal_type: int) -> dict:
     conn = sqlite3.connect("meal_history.db")
     cursor = conn.cursor()
     cursor.execute(f'''SELECT * FROM meals 
-                   WHERE {COLUMNS[1]} = "{date.strftime("%Y-%m-%d")}" 
-                   AND {COLUMNS[2]} = {meal_type}''')
-    meal = cursor.fetchone()
+                   WHERE {_COLUMNS[1]} = "{date.strftime("%Y-%m-%d")}"''')
+    meals = cursor.fetchall()
     conn.close()
         
-    if meal is None:
+    if not meals:
         raise Exception("No matching data.")
-    return format_row(meal)
+    return list(map(format_row, meals))

@@ -31,3 +31,7 @@ Your static analysis runs should not be in the source code directory. Also, it s
 I still do not see any test plan.
 
 Excellent commit comments for source code changes.
+
+2023-11-02: Good test plan but putting it on Google Docs is not a good way to do configuration management. You should put the file into GitHub.
+
+I don’t see any deployment plan.
