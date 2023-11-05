@@ -42,8 +42,8 @@ def generate_daily_report():
 
         print(f"Breakfast:")
         for food in food_details:
-            if food['meal_type'] == "Breakfast"
-            print(f"- {food['name']}: {food['calories']} calories")
+            if food['meal_type'] == "Breakfast":
+                print(f"- {food['name']}: {food['calories']} calories")
         
         print(f"Today Total Calories: {total_calories} calories")
 
