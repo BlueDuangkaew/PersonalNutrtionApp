@@ -2,19 +2,19 @@
 eating_history.py
 """
 
-from datetime import date
+from datetime import datetime
 from datetime import timedelta
 from db.manager.eating_history import find_meal_date, MEAL_TYPES
 
 __author__ = "Pokpong"
 
-def _date_range(date_bounds: tuple[date, date], step: int):
+def _date_range(date_bounds: tuple[datetime, datetime], step: int):
     # Creates a generator for interating dates intervals by a specified number 
     # of days a time.
     for i in range(0, (date_bounds[1] - date_bounds[0]).days, step):
         yield date_bounds[0] + timedelta(days=i)
 
-def date_in_db(date: date):
+def date_in_db(date: datetime):
     """
     Checks if the date has complete info or not. No data counts as incompelete.
 
@@ -28,7 +28,7 @@ def date_in_db(date: date):
     """
     meals = []
     try:
-        meals = find_meal_date(date)
+        meals = find_meal_date(datetime)
     except Exception as ex:
         if str(ex) == "No matching data.":
             return False
@@ -39,7 +39,7 @@ def date_in_db(date: date):
         return True
     return False
 
-def date_range_in_db(date_bounds: tuple[date, date]):
+def date_range_in_db(date_bounds: tuple[datetime, datetime]):
     """
     Finds the dates within the bounds that have complete info.
 
@@ -55,7 +55,7 @@ def date_range_in_db(date_bounds: tuple[date, date]):
     """
     return [date for date in _date_range(date_bounds, 1) if date_in_db(date)]
 
-def meal_in_db(date: date, meal_type: str):
+def meal_in_db(date: datetime, meal_type: str):
     """
     Checks if a meal exist or not.
 

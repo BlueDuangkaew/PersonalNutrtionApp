@@ -9,7 +9,7 @@ Functions:
     find_meal_date
 '''
 import sqlite3
-from datetime import date
+from datetime import datetime
 from sqlite3 import Error
 
 __author__ = "Plam, Pokpong"
@@ -49,7 +49,7 @@ def create_history_database():
     conn.close()
 
 # Function to add a meal to the database
-def add_meal_to_database(date: date, meal_type: str, foods: list):
+def add_meal_to_database(date: datetime, meal_type: str, foods: list):
     '''
     Adds a meal to the history database
 
@@ -87,7 +87,7 @@ def retrieve_all_meals():
         raise Exception("No matching data.")
     return _format_rows(meals)
 
-def find_meal_date(date: date) -> list:
+def find_meal_date(date: datetime) -> list:
     '''
     Finds a meal by date and returns a meal if found.
     

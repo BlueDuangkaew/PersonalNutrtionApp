@@ -20,6 +20,7 @@ __author__ = "Pokpong"
 def main():
     food_db.create_food_table()
     hist_db.create_history_database()
+    food_db.fill_food_table()
     
     # food_db.fetch_all_rows("SELECT * FROM food")
     # print(hist_db.retrieve_all_meals())
