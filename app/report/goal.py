@@ -69,6 +69,3 @@ def generate_target_report():
 
     except Exception as e:
         print(f"Error: {e}")
-
-# Call the generate_target_report function
-generate_target_report()
