@@ -10,7 +10,7 @@ from db.validator.eating_history import (meal_in_db,
                                              date_in_db, 
                                              date_range_in_db)
 from db.validator.food import food_in_db
-from report.daily import generate_report_by_date
+from report.daily import generate_daily_report
 from report.goal import generate_report_by_goal
 import ui as ui
 
@@ -52,14 +52,16 @@ def add_meal():
 def make_daily_report():
     date_range = ui.DateRangeInput.get()
     if date_range_in_db(date_range):
-        generate_report_by_date(date_range[0], date_range[1])
+        # generate_daily_report(date_range[0], date_range[1])
+        print("\n\nDummy report!!!\n")
     
 def make_target_report():
     date_range = ui.DateRangeInput.get()
     if not date_range_in_db(date_range):
         return
     nutrition_type, max_val = ui.ask_nutrition_type(food_db.FOOD_INFO_KEYS)
-    generate_report_by_goal(nutrition_type, max_val)
+    # generate_report_by_goal(nutrition_type, max_val)
+    print("\n\nDummy report!!!\n")
 
 
 if __name__ == '__main__':
