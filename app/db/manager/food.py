@@ -46,9 +46,9 @@ def create_food_table():
     execute_query(create_table_query)
 
 #fill the table with info of db
-def fill_table_table():
-    create_food_table = """
-    INSERT INTO food (food_name, calories, fat, carbs, sodium) VALUES
+def fill_food_table():
+    create_food_table = f"""
+    INSERT INTO food ({', '.join(FOOD_INFO_KEYS)}) VALUES
     ('apple', 52, 0.2, 14, 1),
     ('banana', 89, 0.3, 23, 1),
     ('pear', 57, 0.1, 15, 1),
