@@ -8,6 +8,8 @@ Funtions:
     add_food
 """
 
+
+
 import sqlite3
 import pandas as pd
 
@@ -62,107 +64,115 @@ def check_table_exists(connection, table_name):
 #create db then fill with food
 def create_and_populate_food_table(connection):
     create_table_query = """
+        
             CREATE TABLE IF NOT EXISTS food (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                food_name TEXT NOT NULL,
-                calories INTEGER NOT NULL,
+                food_name TEXT NOT NULL, 
+                calories REAL, 
+                fat REAL, 
+                carbs REAL, 
                 sodium REAL
             );
+
         """
     execute_query(connection, create_table_query)
 
     create_food_table = """
-    INSERT INTO food (id, food_name, calories, sodium) VALUES
-    (1, 'oatmeal', 90, 1.5),
-    (2, 'tempura', 350, 1.3),
-    (3, 'burger', 365, 0.2),
-    (4, 'pizza', 256, 0.1),
-    (5, 'sushi', 483, 0.9),
-    (6, 'garlic', 449, 1.3),
-    (7, 'sushi', 96, 0.9),
-    (8, 'banana', 489, 1.3),
-    (9, 'muffin', 445, 0.2),
-    (10, 'blueberry', 368, 1.2),
-    (11, 'taco', 457, 1.5),
-    (12, 'sandwich', 201, 1.1),
-    (13, 'lobster', 125, 0.2),
-    (14, 'garlic', 383, 1.5),
-    (15, 'burger', 425, 0.8),
-    (16, 'onion', 99, 1.4),
-    (17, 'avocado', 295, 0.3),
-    (18, 'sandwich', 216, 1.1),
-    (19, 'cheese', 53, 0.5),
-    (20, 'beef stew', 111, 1.0),
-    (21, 'honeydew', 198, 1.2),
-    (22, 'bacon', 494, 1.4),
-    (23, 'beef', 445, 0.5),
-    (24, 'onion', 110, 0.8),
-    (25, 'rice', 452, 0.2),
-    (26, 'pancake', 164, 0.5),
-    (27, 'bagel', 398, 0.4),
-    (28, 'cucumber', 269, 0.6),
-    (29, 'toast', 307, 0.4),
-    (30, 'cheese', 108, 0.9),
-    (31, 'toast', 289, 0.2),
-    (32, 'pepper', 436, 1.3),
-    (33, 'peach', 225, 0.9),
-    (34, 'kale', 88, 0.5),
-    (35, 'nectarine', 82, 0.4),
-    (36, 'quinoa', 241, 0.3),
-    (37, 'bagel', 277, 0.5),
-    (38, 'cheese', 434, 0.5),
-    (39, 'sushi', 285, 0.9),
-    (40, 'lentils', 331, 0.9),
-    (41, 'taco', 111, 1.1),
-    (42, 'orange', 241, 0.8),
-    (43, 'cucumber', 330, 1.2),
-    (44, 'edamame', 118, 1.2),
-    (45, 'bacon', 488, 0.7),
-    (46, 'cherry', 108, 0.8),
-    (47, 'muffin', 323, 1.4),
-    (48, 'lemon', 88, 1.5),
-    (49, 'zucchini', 434, 0.4),
-    (50, 'cantaloupe', 328, 0.3),
-    (51, 'blueberry', 375, 1.0),
-    (52, 'rice', 369, 1.2),
-    (53, 'doughnut', 147, 0.4),
-    (54, 'olive', 464, 1.3),
-    (55, 'croissant', 470, 0.6),
-    (56, 'bread', 246, 1.1),
-    (57, 'waffle', 127, 0.9),
-    (58, 'zucchini', 441, 0.1),
-    (59, 'blueberry', 424, 0.9),
-    (60, 'figs', 313, 0.8),
-    (61, 'raisins', 404, 0.1),
-    (62, 'enchilada', 471, 0.4),
-    (63, 'quesadilla', 363, 1.4),
-    (64, 'grapes', 420, 1.3),
-    (65, 'cheese', 58, 0.4),
-    (66, 'waffle', 355, 0.2),
-    (67, 'carrot', 285, 0.9),
-    (68, 'tofu', 175, 1.4),
-    (69, 'chocolate', 324, 0.3),
-    (70, 'pork', 479, 1.2),
-    (71, 'dates', 65, 0.5),
-    (72, 'pineapple', 371, 0.5),
-    (73, 'pad thai', 56, 0.8),
-    (74, 'croissant', 163, 0.9),
-    (75, 'edamame', 354, 1.3),
-    (76, 'burrito', 210, 0.2),
-    (77, 'brown bread', 443, 0.9),
-    (78, 'pear', 211, 0.3),
-    (79, 'barley', 496, 0.5),
-    (80, 'carrot', 437, 0.5),
-    (81, 'zucchini', 433, 0.4),
-    (82, 'burrito', 155, 1.4),
-    (83, 'ice cream', 266, 1.1),
-    (84, 'wheat', 66, 1.2),
-    (85, 'watermelon', 56, 1.1),
-    (86, 'curry', 317, 1.0),
-    (87, 'figs', 90, 1.4),
-    (88, 'doughnut', 109, 0.7),
-    (89, 'coconut', 167, 1.5);
-
+    INSERT INTO food (food_name, calories, fat, carbs, sodium) VALUES
+    ('apple', 52, 0.2, 14, 1),
+    ('banana', 89, 0.3, 23, 1),
+    ('pear', 57, 0.1, 15, 1),
+    ('mango', 60, 0.4, 15, 2),
+    ('pineapple', 50, 0.1, 13, 1),
+    ('kiwi', 61, 0.5, 15, 3),
+    ('watermelon', 30, 0.2, 7.6, 1),
+    ('pomegranate', 83, 1.2, 19, 3),
+    ('papaya', 43, 0.3, 11, 1),
+    ('plum', 46, 0.3, 11.4, 0),
+    ('peach', 39, 0.3, 10, 0),
+    ('grapes', 69, 0.2, 18, 2),
+    ('cherries', 50, 0.3, 12, 3),
+    ('raspberries', 52, 0.7, 12, 1),
+    ('blackberries', 43, 0.5, 10, 1),
+    ('cranberries', 46, 0.1, 12, 2),
+    ('gooseberries', 44, 0.6, 10, 1),
+    ('lychee', 66, 0.4, 17, 1),
+    ('figs', 74, 0.3, 19.2, 0),
+    ('dates', 282, 0.4, 75, 1),
+    ('prunes', 240, 0.4, 64, 2),
+    ('apricot', 48, 0.4, 11, 1),
+    ('nectarine', 44, 0.3, 10.6, 0),
+    ('coconut water', 19, 0.2, 4.4, 105),
+    ('coconut milk', 230, 24, 6, 25),
+    ('almond milk', 15, 1.1, 0.6, 150),
+    ('soy milk', 54, 1.8, 6, 44),
+    ('rice milk', 47, 1, 9.1, 86),
+    ('oat milk', 50, 1.5, 9.4, 92),
+    ('hazelnut milk', 29, 2.8, 1.2, 12),
+    ('cashew milk', 25, 2, 1.4, 5),
+        ('macadamia milk', 95, 50, 1, 5.2),
+    ('pea protein milk', 120, 70, 0.1, 4.5),
+    ('flax milk', 50, 25, 2.5, 2.5),
+    ('hemp milk', 125, 60, 5, 4.5),
+    ('potato', 6, 77, 17, 0.1),
+    ('yam', 21, 118, 28, 0.2),
+    ('bok choy', 65, 13, 2.2, 0.2),
+    ('cabbage', 18, 25, 6, 0.1),
+    ('brussels sprouts', 25, 43, 9, 0.3),
+    ('collard greens', 27, 32, 5.9, 0.6),
+    ('mustard greens', 20, 27, 4.7, 0.4),
+    ('seaweed', 233, 45, 9.1, 0.6),
+    ('turnip', 67, 28, 6.4, 0.1),
+    ('radish', 39, 16, 3.4, 0.1),
+    ('leek', 20, 61, 14.2, 0.3),
+    ('celery', 80, 16, 3, 0.2),
+    ('artichoke', 120, 64, 14.3, 0.4),
+    ('asparagus', 6, 20, 3.7, 0.2),
+    ('green beans', 13, 31, 7, 0.1),
+    ('carrot', 88, 41, 10, 0.2),
+    ('beet', 35, 43, 10, 0.2),
+    ('sweet potato', 76, 86, 20, 0.1),
+    ('butternut squash', 67, 45, 12, 0.1),
+    ('zucchini', 33, 17, 3.1, 0.3),
+    ('pumpkin', 49, 26, 6.5, 0.1),
+    ('cucumber', 90, 15, 3.6, 0.2),
+    ('bell pepper', 150, 20, 4.6, 0.2),
+    ('eggplant', 110, 25, 6, 0.2),
+    ('spinach', 91, 23, 3.6, 0.4),
+    ('kale', 45, 49, 8.8, 0.9),
+    ('broccoli', 92, 34, 6.6, 0.4),
+    ('cauliflower', 146, 25, 5, 0.3),
+    ('arugula', 108, 25, 3.7, 0.7),
+    ('green peas', 89, 81, 14, 0.4),
+    ('okra', 73, 33, 7.5, 0.2),
+    ('chard', 101, 19, 3.7, 0.2),
+    ('fennel', 87, 31, 7, 0.2),
+    ('parsnip', 78, 75, 18, 0.3),
+    ('turnip greens', 123, 29, 6.3, 0.4),
+    ('chicory', 145, 23, 4.7, 0.3),
+    ('endive', 95, 17, 3.4, 0.1),
+    ('escarole', 85, 19, 3.8, 0.2),
+    ('romaine lettuce', 102, 17, 3.3, 0.3),
+    ('red leaf lettuce', 120, 16, 3, 0.2),
+    ('butterhead lettuce', 105, 13, 2.2, 0.3),
+    ('watercress', 79, 11, 1.3, 0.1),
+    ('bamboo shoots', 120, 27, 5.2, 0.3),
+    ('sprouts', 67, 29, 5.5, 0.2),
+    ('mushrooms', 58, 22, 3.3, 0.3),
+    ('tomato', 150, 18, 3.9, 0.2),
+    ('green onion', 45, 32, 7.3, 0.2),
+    ('kohlrabi', 140, 36, 8.4, 0.1),
+    ('garlic', 1, 149, 33, 0.5),
+    ('shallots', 72, 72, 16.8, 0.1),
+    ('onion', 64, 44, 10.1, 0.1),
+    ('chives', 3, 30, 6.4, 0.1),
+    ('parsley', 34, 36, 6.3, 0.6),
+    ('coriander', 2, 23, 5.2, 0.5),
+    ('dill', 1, 43, 7, 0.5),
+    ('rosemary', 2, 131, 20.7, 5.9),
+    ('thyme', 3, 101, 24.5, 1.7),
+    ('basil', 1, 22, 4.3, 0.6),
+    ('oregano', 1, 265, 68.9, 4.3),
+    ('marjoram', 1, 271, 60.6, 7.6);
 
 
     """
@@ -193,7 +203,11 @@ def main():
 def add_food(connection, food_info):
     food_name = food_info.get('food_name')
     calories = food_info.get('calories')
+    fat = food_info.get('fat')
+    carbs = food_info.get('carbs')
     sodium = food_info.get('sodium')
+ 
+
 
     # check if all the necessary information is provided
     if food_name and calories is not None and sodium is not None:
@@ -206,8 +220,8 @@ def add_food(connection, food_info):
         else:
             # food does not exist so insert it
             insert_query = f"""
-            INSERT INTO food (food_name, calories, sodium)
-            VALUES ('{food_name}', {calories}, {sodium});
+            INSERT INTO food (food_name, calories, fat, carbs, sodium)
+            VALUES ('{food_name}', {calories}, {fat}, {carbs}, {sodium});
             """
             try:
                 execute_query(connection, insert_query)
@@ -215,13 +229,13 @@ def add_food(connection, food_info):
             except sqlite3.Error as e:
                 print(f"Error adding food to the database: {e}")
     else:
-        print("Invalid food information. Make sure 'food_name', 'calories', and 'sodium' are provided.")
+        print("Invalid food information. Make sure 'food_name', 'calories', and 'sodium', 'carbs', 'fats'are provided.")
 
 # function to find food name in the db
 def find_food_name(connection, food_name):
     query = f"SELECT * FROM food WHERE food_name = '{food_name}'"
     rows = execute_query(connection, query)
-    if rows:
+    if rows: 
         print(f"Found {len(rows)} matching records for food name '{food_name}':")
         for row in rows:
             print(row)
@@ -237,8 +251,10 @@ if __name__ == "__main__":
 
         # add a new food item to the database
         new_food_info = {
-            'food_name': 'peach',
+            'food_name': 'apple',
             'calories': 150,
+            'fat': 0,
+            'carbs' : 7,
             'sodium': 0.4
         }
         add_food(conn, new_food_info)
