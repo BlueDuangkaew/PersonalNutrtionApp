@@ -3,23 +3,27 @@ nutrition_report_byGoal.py
 
 This module contains functions for reporting nutrition from the user goal set
 '''
-from db.manager.eating_history import *
-from db.manager.food import *
+from db.manager.eating_history import find_eating_history_by_date
+from db.manager.food import retrieve_food_by_name
 
 __author__ = "Blue"
 
 def generate_target_report():
     '''
-    <<function brief description>>
+    Generates a target report for a specific nutrition type and date range.
 
     Arguments:
         nutrition_type:
-            <<brief description>> 
-        max_value:
-            <<brief description>> 
+            The type of nutrition to report on.
+        target_amount:
+            The target amount of the specified nutrition type.
+        start_date:
+            The start date for the report period.
+        end_date:
+            The end date for the report period.
     
     Returns:
-        <<brief description>> 
+        None
     '''
     try:
         # Ask the user which nutrition type they want to see
@@ -65,4 +69,6 @@ def generate_target_report():
 
     except Exception as e:
         print(f"Error: {e}")
-    
+
+# Call the generate_target_report function
+generate_target_report()
