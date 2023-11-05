@@ -9,7 +9,6 @@ Funtions:
 """
 
 import sqlite3
-import pandas as pd
 
 __author__ = "Peach"
 
