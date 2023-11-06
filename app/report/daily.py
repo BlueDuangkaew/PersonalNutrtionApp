@@ -6,19 +6,16 @@ This module contains functions for reporting nutrition from a date range
 
 from app.db.manager.eating_history import find_meal_date
 from db.manager.food import find_food_name
-import datetime
+from datetime import datetime
 import plotly.graph_objects as go
 
 __author__ = "Blue"
 
-def generate_daily_report():
+def generate_daily_report(date: datetime):
 
     try:
-        # Get today's date
-        today = datetime.date.today()
-
-        # Retrieve today's meals from the eating_history.py
-        today_meal = find_meal_date(today)
+        # Retrieve date's meals from the eating_history.py
+        today_meal = find_meal_date(date)
 
         # Initialize dictionaries to store food details for each meal type
         breakfast_details = {}
@@ -28,7 +25,7 @@ def generate_daily_report():
         # Calculate total calories for each meal
         total_calories = 0
 
-        # Iterate through the foods in today's meals and retrieve their details
+        # Iterate through the foods in date's meals and retrieve their details
         for food_name in today_meal[0]['foods']:
             food_info = find_food_name(food_name)
             total_calories += food_info[0]['calories']
@@ -50,7 +47,7 @@ def generate_daily_report():
                     dinner_details[food_name] += food_info[0]['calories']
 
         # Print the report
-        print(f"Daily Report for {today.strftime('%Y-%m-%d')}")
+        print(f"Daily Report for {date.strftime('%Y-%m-%d')}")
         print("Breakfast:")
         for food, calories in breakfast_details.items():
             print(f"- {food}: {calories} calories")

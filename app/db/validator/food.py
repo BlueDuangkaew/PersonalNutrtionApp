@@ -4,14 +4,14 @@ food_validator.py
 This module contains functions for validating food entries
 
 Functions:
-    food_exists
+    food_in_dbs
 '''
 
-import db_manager.food as db
+from db.manager.food import find_food_name
 
 __author__ = "Pokpong"
 
-def food_exists(food_name: str) -> bool:
+def food_in_db(food_name: str) -> bool:
     """
     Checks if a given food name exists in the food database.
 
@@ -26,7 +26,7 @@ def food_exists(food_name: str) -> bool:
             if not found
     """
     try:
-        db.find_food_name(food_name)
+        find_food_name(food_name)
     except Exception as ex:
         if str(ex) == "No matching data.":
             return False

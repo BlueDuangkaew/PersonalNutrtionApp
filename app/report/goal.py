@@ -3,8 +3,8 @@ nutrition_report_byGoal.py
 
 This module contains functions for reporting nutrition from the user goal set
 '''
-from db.manager.eating_history import find_eating_history_by_date
-from db.manager.food import retrieve_food_by_name
+from db.manager.eating_history import find_meal_date
+from db.manager.food import find_food_name
 
 __author__ = "Blue"
 
@@ -41,12 +41,12 @@ def generate_target_report():
         end_date = input("Enter the end date (YYYY-MM-DD): ")
 
         # Retrieve meals from the eating history database
-        meals = find_eating_history_by_date(start_date, end_date)
+        meals = find_meal_date(start_date, end_date)
 
         # Retrieve food details using food names and calculate total nutrition intake
         total_nutrition = 0
         for meal in meals:
-            food_list = [retrieve_food_by_name(food_name) for food_name in meal['foods']]
+            food_list = [find_food_name(food_name) for food_name in meal['foods']]
             if nutrition_type == '1':
                 total_nutrition += sum(food['calories'] for food in food_list)
             elif nutrition_type == '2':

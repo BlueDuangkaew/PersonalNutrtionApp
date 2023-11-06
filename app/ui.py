@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from typing import Callable
 
 '''
 ui.py
@@ -6,146 +7,157 @@ ui.py
 This module contains functions for the user interface.
 '''
 
-__author__ = "Palm"
-
-def enter_date():
-    """
-    Ask the user to enter a date in the format 'YYYY-MM-DD'.
-
-    Returns:
-        date (str): A valid date in 'YYYY-MM-DD' format entered by the user.
-    """
+__author__ = "Palm, Pokpong"
+        
+def _parse_input(parser: Callable, prompt: str):
     while True:
-        date_str = input("Enter the date (YYYY-MM-DD): ")
-        # Checks if the date is entered in the correct format.
+        num_str = input(prompt)
         try:
-            date = datetime.strptime(date_str, '%Y-%m-%d')
-        except ValueError as msg:
-            print("Invalid date format. Please use YYYY-MM-DD format.")
+            num = parser(num_str)
+        except ValueError as err:
+            if (parser is int 
+                    and str(err) == ("invalid literal for int() with base 10: " 
+                                     f"'{num_str}'")):
+                print("Invalid value. The value must be a integer.")
+            elif (parser is float
+                    and str(err) == ("could not convert string to float: "
+                                     f"'{num_str}'")):
+                print("Invalid value. The value must be a number.")
+            print(parser is int, str(err))
         else:
-            # Checks if the date is in the future.
-            if date > datetime.now():
-                print("The date you entered is in the future. Please enter a valid date.")
-            # Checks if the date is too old.
-            elif date < datetime.now() - timedelta(days=14):
-                print("The date you entered is more than two weeks old.")
+            return num
+
+def _or_list(items: list[str]):
+    str_list = items[0]
+    for item in items[1:-1]:
+        str_list += f", {item}"
+    if items[0] != items[-1]:
+        str_list += f", or {items[-1]}"
+    return str_list
+
+class DateInput():
+    format = "%Y/%m/%d"
+    format_prompt = "YYYY/MM/DD"
+
+    def get(self):
+        return self._parse_input(f"Enter the date ({self.format_prompt}): ")
+    
+    def _parse_input(self, prompt: str):
+        while True:
+            date_str = input(prompt)
+            try:
+                date = datetime.strptime(date_str, self.format)
+            except ValueError:
+                print(f"Invalid date format. Please use {self.format_prompt} format.")
             else:
-                return date.strftime('%Y-%m-%d')
+                now = datetime.now()
+                if date > now:
+                    print("The date you entered is in the future. "
+                          "Please enter a valid date.")
+                elif date < now - timedelta(days=14):
+                    print("The date you entered is more than two weeks old.")
+                else:
+                    return date
 
-def enter_meal_type():
-    """
-    Ask the user to enter a meal type.
+class DateRangeInput(DateInput):
+    def get(self):
+        while True:
+            start_date = super()._parse_input(f"Enter the start date {self.format_prompt}: ")
+            end_date = super()._parse_input(f"Enter the end date {self.format_prompt}: ")
 
-    Returns:
-        meal_type (str): A valid meal type entered by the user.
-    """
-    while True:
-        meal_type = input("Enter meal type (breakfast/lunch/dinner/snack): ").lower()
-        if meal_type in ["breakfast", "lunch", "dinner", "snack"]:
-            return meal_type
-        else:
-            print("Invalid meal type. Please enter one of the specified meal types.")
-
-def enter_food_items():
-    """
-    Ask the user to enter a list of food items and return them as a list.
-
-    Returns:
-        foods (list): A list of food items entered by the user.
-    """
-    foods = []
-    while True:
-        user_food = input("Enter a food item (or 'done' to finish): ")
-        if user_food.lower() == 'done':
-            break
-        else:
-            foods.append(user_food)
-            print(f"{user_food} added.")
-    return foods
-
-def ask_date_range():
-    """
-    Ask the user to enter a start and end date in 'YYYY-MM-DD' format.
-
-    Returns:
-        start_date (datetime): The start date entered by the user.
-        end_date (datetime): The end date entered by the user.
-    """
-    while True:
-        start_date_str = input("Enter the start date (YYYY-MM-DD): ")
-        end_date_str = input("Enter the end date (YYYY-MM-DD): ")
-
-        try:
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%d')
-            end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
-        except ValueError:
-            print("Invalid date format. Please use YYYY-MM-DD format.")
-            continue
-
-        if start_date > end_date:
-            print("The start date should be before the end date.")
-            continue
+            if start_date > end_date:
+                print("The start date should be before the end date.")
+            else:
+                break
         return start_date, end_date
 
-def ask_nutrition_type():
-    """
-    Ask the user to enter a nutrition type and a maximum value.
+class MealtimeInput(DateInput):
+    def __init__(self, mealtimes: tuple[str, ...]) -> None:
+        self.mealtimes = mealtimes
 
-    Returns:
-        nutrition_type (str): The selected nutrition type.
-        max_value (str): The maximum value entered by the user.
-    """
-    while True:
-        nutrition_type = input("Enter a nutrition type (calories, sodium, sugar): ").lower()
-        if nutrition_type not in ["calories", "sodium", "sugar"]:
-            print("Invalid nutrition type. Please enter calories, sodium, or sugar.")
-        else:
-            max_value = input(f"Enter the limit for {nutrition_type}: ")
-            return nutrition_type, max_value
+    def get(self) -> (datetime, str):
+        date = super().get()
+        while True:
+            # Convert to lowercase for case-insensitivity
+            meal = input(f"Enter meal type ({'/'.join(self.mealtimes)}): "
+                        ).lower()  
+            
+            if meal in self.mealtimes:
+                return date, meal
+            else:
+                print(f"Invalid meal type. Please enter {_or_list(self.mealtimes)}.")
+    def overwrite(self) -> bool:
+        choice = input("A meal at this time already exist" 
+                       "would you like to overwrite it (y/n)? ").lower()
+        while True:
+            match choice:
+                case 'y':
+                    return True
+                case 'n':
+                    return False
+                case _:
+                    choice = input("Invalid input. Enter y or n: ")
 
-def report_menu():
-    """
-    Display the report menu and allow the user to choose options for generating reports.
-    """
-    while True:
-        print("\nReport Menu")
-        print("1. Daily report")
-        print("2. Goal report")
-        print("3. Back to main menu")
+class FoodInput():
+    def __init__(self, info_types: tuple[str, ...]) -> None:
+        self.info_types = info_types
+        self.foods = []
         
-        choice = input("Select an option (1/2/3): ")
+    def getter(self):
+        while True:
+            user_food = input("Enter a food item (or 'done' to finish): ")
+            if user_food.lower() == 'done':
+                if not self.foods:
+                    print("No food entered. Returning to main menu.")
+                else:
+                    print("Foods:\n\t{}".format('\n\t'.join(self.foods)))
+                break
+            elif user_food in self.foods:
+                print("This food has already been inputted")
+            else:
+                self.foods.append(user_food)
+                yield user_food
+                print(f"{user_food} added.")
 
-        if choice == '1':
-            start_date, end_date = ask_date_range()
-            print("Generating reports from a date range.")
-            # Call the function to generate a daily report using start_date and end_date
-        elif choice == '2':
-            nutrition_type, max_value = ask_nutrition_type()
-            print("Generating reports from the user's goal.")
-            # Call the function to generate a goal report using nutrition_type and max_value
-        elif choice == '3':
-            break
-        else:
-            print("Invalid choice. Please select 1, 2, or 3.")
+    def new_type(self):
+        print(f"No data on {self.foods[-1]}. Please fill in the following:")
+        food_info = {self.info_types[0]: self.foods[-1]}
+        for nutrition in self.info_types[1:]:
+            food_info.update({nutrition: _parse_input(float, f"\t{nutrition}: ")})
+        return food_info
 
-if __name__ == "__main__":
+def ask_nutrition_type(nutrition_types: str):
     while True:
-        print("\nFood and Nutrition Tracker")
-        print("1. Enter a meal")
-        print("2. Generate a nutrition report")
-        print("3. Exit")
+    # Ask the user to input a nutrition type (calories, sodium, or sugar)
+        nutrition_type = input(
+            f"Enter a nutrition type ({'/'.join(nutrition_types)}): ").lower()
 
-        choice = input("Select an option (1/2/3): ")
+    # Check if the input is valid
+        if nutrition_type not in nutrition_types:
+            print(f"Invalid nutrition type." 
+                  f"Please enter {_or_list(nutrition_types)}")
+            continue
 
-        if choice == '1':
-            date = enter_date()
-            meal_type = enter_meal_type()
-            foods = enter_food_items()
-            # Process the entered meal data
-        elif choice == '2':
-            report_menu()
-        elif choice == '3':
-            print("Exit. Have a great day!")
-            break
+    # Ask the user to input the limit for the chosen nutrition type
+        max_value = input(f"Enter the limit for {nutrition_type}: ")
+        break
+    return nutrition_type, max_value
+
+# Define the main function
+def main_menu():
+    options = (
+        "Enter a meal", "Daily report", 
+        "Goal report",  "Exit"
+        )
+    indices = []
+    print("\nFood and Nutrition Tracker")
+    for i, opt in enumerate(options):
+        print(f"{i + 1}. {opt}")
+        indices.append(str(i + 1))
+    while True:
+        # Prompt the user to select an option
+        choice = _parse_input(int, f"Select an option ({'/'.join(indices)}): ")
+        if str(choice) not in indices:
+            print(f"Invalid choice. Please select {_or_list(indices)}")
         else:
-            print("Invalid choice. Please select 1, 2, or 3.")
+            return choice - 1
