@@ -5,7 +5,7 @@ This module contains functions for reporting nutrition from a date range
 '''
 
 from app.db.manager.eating_history import find_meal_date
-from app.db.manager.food import find_food_name
+from db.manager.food import find_food_name
 import datetime
 import plotly.graph_objects as go
 
