@@ -28,7 +28,7 @@ def date_in_db(date: datetime):
     """
     meals = []
     try:
-        meals = find_meal_date(datetime)
+        meals = find_meal_date(date)
     except Exception as ex:
         if str(ex) == "No matching data.":
             return False
