@@ -33,10 +33,10 @@ def create_history_database():
         [" ".join(tup) for tup in zip(_COLUMNS, attributes)]
     )
 
-    conn = sqlite3.connect("meal_history.db")
+    conn = sqlite3.connect("personal_nutrition_app.db")
     cursor = conn.cursor()
     print("history init")
-    cursor.execute(f"CREATE TABLE IF NOT EXISTS meals ({column_info})")
+    cursor.execute(f"CREATE TABLE IF NOT EXISTS meal_history ({column_info})")
     conn.commit()
     conn.close()
 
@@ -52,9 +52,9 @@ def add_meal_to_database(date: date, meal_type: str, foods: list):
     
     Returns:
     '''
-    conn = sqlite3.connect("meal_history.db")
+    conn = sqlite3.connect("personal_nutrition_app.db")
     cursor = conn.cursor()
-    cursor.execute(f'''INSERT INTO meals ({", ".join(_COLUMNS[1:4])}) 
+    cursor.execute(f'''INSERT INTO meal_history ({", ".join(_COLUMNS[1:4])}) 
                    VALUES ("{date.strftime("%Y-%m-%d")}", 
                            "{meal_type}", 
                            "{", ".join(foods)}")''')
@@ -69,9 +69,9 @@ def retrieve_all_meals():
     
     Returns:
     '''
-    conn = sqlite3.connect("meal_history.db")
+    conn = sqlite3.connect("personal_nutrition_app.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM meals")
+    cursor.execute("SELECT * FROM meal_history")
     meals = cursor.fetchall()
     conn.close()
 
@@ -90,9 +90,9 @@ def find_meal_date(date: date) -> list:
     Returns:
         A dictionary conatining the info on the meal.
     '''
-    conn = sqlite3.connect("meal_history.db")
+    conn = sqlite3.connect("personal_nutrition_app.db")
     cursor = conn.cursor()
-    cursor.execute(f'''SELECT * FROM meals 
+    cursor.execute(f'''SELECT * FROM meal_history 
                    WHERE {_COLUMNS[1]} = "{date.strftime("%Y-%m-%d")}"''')
     meals = cursor.fetchall()
     conn.close()
