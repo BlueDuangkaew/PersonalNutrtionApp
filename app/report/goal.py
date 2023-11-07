@@ -33,3 +33,6 @@ def generate_target_report():
             print(f"You need {target_amount - total_intake} more {nutrition_type}")
     else:
         print(f"No data for the selected date range")
+
+if __name__ == "__main__":
+    generate_target_report()

@@ -16,7 +16,7 @@ def generate_daily_report():
     c = conn.cursor()
 
     #Error Here
-    today = datetime.now().date()
+    today = datetime.date.today()
 
     c.execute('SELECT * FROM meal_history WHERE date=?', (today,))
     data = c.fetchall()
@@ -28,7 +28,7 @@ def generate_daily_report():
             print(row[2], row[3])
 
         c.execute('SELECT SUM(calories), SUM(sodium), SUM(protein), SUM(carbohydrate), SUM(fat) FROM meal_history '
-                  'INNER JOIN food_nutrition ON meal_history.food_name = food_nutrition.foods WHERE date=?', (today,))
+                  'INNER JOIN food_nutrition ON meal_history.foods = food_nutrition.food_name WHERE date=?', (today,))
         totals = c.fetchone()
 
         print(f"\nTotal Nutrition Intake:")

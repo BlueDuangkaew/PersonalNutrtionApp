@@ -14,7 +14,7 @@ import pandas as pd
 __author__ = "Peach, Blue"
 
 #Read .csv file
-food_data = pd.read_csv('food_nutrition.csv')
+food_data = pd.read_csv('.app.db.manager.food_nutrition.csv')
 
 #Data Clean Up
 food_data.columns = food_data.columns.str.strip()
