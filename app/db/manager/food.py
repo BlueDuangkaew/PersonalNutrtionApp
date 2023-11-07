@@ -10,7 +10,7 @@ Funtions:
 
 import sqlite3
 
-__author__ = "Peach"
+__author__ = "Peach, Pokpong"
 
 
 # Constants
@@ -24,7 +24,7 @@ _COLUMN_INFOS = {"id": "INTEGER PRIMARY KEY AUTOINCREMENT",
 FOOD_INFO_KEYS = tuple(_COLUMN_INFOS.keys())[1:]
 
 # This function formats the a row of data from the database
-def format_rows(rows: list[tuple]) -> list[dict]:
+def _format_rows(rows: list[tuple]) -> list[dict]:
     format_row = lambda row : dict(zip(FOOD_INFO_KEYS, row[1:]))
     
     if isinstance(rows, tuple):
@@ -147,18 +147,19 @@ def fill_food_table():
     execute_query(create_food_table)
 
 # to create the connection to db
-def create_connection(db_file):
+def create_connection(db_file: str):
     """Create a database connection to a SQLite database"""
     try:
         conn = sqlite3.connect(db_file)
         print("SQLite Database connection successful")
-        return conn
     except sqlite3.Error as e:
         print(f"Error: '{e}'")
         return None
+    conn.close()
+    return conn
 
 #to exectue query
-def execute_query(query):
+def execute_query(query: str):
     connection = create_connection(DB_FILE)
     cursor = connection.cursor()
     try:
@@ -175,9 +176,9 @@ def execute_query(query):
         cursor.close()
 
 #prints rows
-def fetch_all_rows(query):
+def fetch_all_rows(query: str):
     rows = execute_query(query)
-    print(format_rows(rows))
+    print(_format_rows(rows))
 
 #add new food to db
 def add_food(food_info: dict):
@@ -201,13 +202,13 @@ def add_food(food_info: dict):
         print(f"Error adding food to the database: {e}")
 
 #find food name in db
-def find_food_name(food_name):
+def find_food_name(food_name: str):
     query = f"SELECT * FROM food WHERE food_name = '{food_name}'"
     rows = execute_query(query)
 
     if not rows:
         raise Exception("No matching data.")
-    return format_rows(rows)
+    return _format_rows(rows)
 
 # # Example usage
 # if __name__ == "__main__":

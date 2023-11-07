@@ -14,7 +14,7 @@ from sqlite3 import Error
 
 __author__ = "Plam, Pokpong"
 
-
+DB_FILE = "meal_history.db"
 _COLUMN_INFOS = {"id": "INTEGER PRIMARY KEY AUTOINCREMENT", 
                  "date": "DATE", 
                  "meal_type": "TEXT", 
@@ -41,7 +41,7 @@ def create_history_database():
         [" ".join(tup) for tup in _COLUMN_INFOS.items()]
     )
 
-    conn = sqlite3.connect("meal_history.db")
+    conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     print("history init")
     cursor.execute(f"CREATE TABLE IF NOT EXISTS meals ({column_info})")
@@ -60,7 +60,7 @@ def add_meal_to_database(date: datetime, meal_type: str, foods: list):
     
     Returns:
     '''
-    conn = sqlite3.connect("meal_history.db")
+    conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute(f'''INSERT INTO meals ({", ".join(_MEAL_INFO_TYPES)}) 
                    VALUES ("{date.strftime("%Y-%m-%d")}", 
@@ -77,7 +77,7 @@ def retrieve_all_meals():
     
     Returns:
     '''
-    conn = sqlite3.connect("meal_history.db")
+    conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM meals")
     meals = cursor.fetchall()
@@ -98,7 +98,7 @@ def find_meal_date(date: datetime) -> list:
     Returns:
         A dictionary conatining the info on the meal.
     '''
-    conn = sqlite3.connect("meal_history.db")
+    conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute(f'''SELECT * FROM meals 
                    WHERE {_MEAL_INFO_TYPES[0]} 
