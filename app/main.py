@@ -61,12 +61,12 @@ def make_daily_report():
 
     
 def make_target_report():
-    date_range = date_range()
+    date_range = ui.DateInput().enter_range()
     valid_dates = date_range_in_db(date_range)
     if not valid_dates:
         ui.DateInput.range_no_info()
         return
-    nutrition_type, max_val = ui.ask_nutrition_type(food_db.FOOD_INFO_KEYS)
+    nutrition_type, max_val = ui.ask_nutrition_type(food_db.FOOD_INFO_KEYS[1:])
     report_info = generate_report_by_goal(valid_dates, nutrition_type, max_val)
     ui.print_target_report(report_info)
 

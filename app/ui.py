@@ -154,7 +154,7 @@ def ask_nutrition_type(nutrition_types: str):
             continue
 
     # Ask the user to input the limit for the chosen nutrition type
-        max_value = _get_pos_num(f"Enter the limit for {nutrition_type}: ")
+        max_value = _get_pos_num(float, f"Enter the limit for {nutrition_type}: ")
         break
     return nutrition_type, max_value
 
