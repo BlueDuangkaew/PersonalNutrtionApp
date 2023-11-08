@@ -58,7 +58,6 @@ def make_daily_report():
     if not date_in_db(date):
         ui.DateInput.no_info()
         return
-    print(generate_daily_report(date))
     ui.print_daily_report(generate_daily_report(date))
 
 #function to allow user to enter date range for target report   

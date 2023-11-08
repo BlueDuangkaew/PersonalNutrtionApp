@@ -16,7 +16,7 @@ __author__ = "Peach, Pokpong"
 # Constants
 DB_FILE = "food_database.db"
 _COLUMN_INFOS = {"id": "INTEGER PRIMARY KEY AUTOINCREMENT", 
-                 "food_name": "TEXT NOT NULL", 
+                 "food_name": "TEXT NOT NULL UNIQUE", 
                  "calories": "REAL", 
                  "fat": "REAL", 
                  "carbs": "REAL", 
@@ -41,7 +41,6 @@ def create_food_table():
             {', '.join([f"{k} {v}" for k, v in _COLUMN_INFOS.items()])}
             );
         """
-    print(', '.join([f"{k} {v}" for k, v in _COLUMN_INFOS.items()]))
     execute_query(create_table_query)
 
 #fill the table with info of db

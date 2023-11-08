@@ -125,8 +125,8 @@ class FoodInput():
                 else:
                     print("Foods:\n\t{}".format('\n\t'.join(self.foods)))
                 break
-            elif not user_food.isalpha():
-                print("Food name must alphabetical.")
+            elif not all(word.isalpha() for word in user_food.split(" ")):
+                print("Food name must alphabetical. Space is allowed")
             elif user_food in self.foods:
                 print("This food has already been inputted")
             else:

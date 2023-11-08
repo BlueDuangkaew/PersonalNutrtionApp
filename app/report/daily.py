@@ -27,10 +27,8 @@ def daily_summary(all_meals: dict[str, dict]):
     #Add the sumary to the dict 
     today_summary = {}
     types = list(list(all_meals.values())[0].keys())[1:]
-    print(types)
     for nutrition_type in types:
         today_summary.update({nutrition_type: sum([meal[nutrition_type] for meal in all_meals.values()])})
-    
     return today_summary
 
 #function to generate the report
@@ -40,40 +38,8 @@ def generate_daily_report(date: datetime):
 
     meal_data = find_meal_date(date)
 
-    for meal_item in meal_data:
-
-        #catagorize
-        for meal_type in MEAL_TYPES:
-            all_meal.update({meal_type: create_food_details(meal_item["foods"])})
-
+    #catagorize
+    for meal_item, meal_type in zip(meal_data, MEAL_TYPES):
+        all_meal.update({meal_type: create_food_details(meal_item["foods"])})
+    print(all_meal)
     return date, daily_summary(all_meal)
-# def _sum_daily_intake(daily_food_info: list[dict[str, float]]) -> list[float]:
-#     sum_elem_wise = (lambda lists : 
-#         [map(sum, [ls[i] for ls in lists]) for i in range(len(lists[0]))])
-#     nutrition_vals = (list(food_info.values())[1:] for food_info in daily_food_info)
-#     return sum_elem_wise(nutrition_vals)
-
-# def generate_daily_report(date: datetime):
-#     '''
-#     <<function brief description>>
-
-#     Arguments:
-#         nutrition_type:
-#             <<brief description>> 
-#         max_value:
-#             <<brief description>> 
-    
-#     Returns:
-#         <<brief description>> 
-#     '''
-#     sum_elem_wise = (lambda lists : 
-#         [map(sum, [ls[i] for ls in lists]) for i in range(len(lists[0]))])
-
-#     # Retrieve today meals from the eating_history.py
-#     meals = find_meal_date(date)
-#     # Retrieve food details using food names
-#     foods = (meal['foods'] for meal in meals)
-#     print(type(foods), foods)
-#     nutrition_vals = [list(find_food_name(food).values())[1:] for food in foods]
-#     sum_food_details = _sum_daily_intake(nutrition_vals)
-#     return sum_food_details
