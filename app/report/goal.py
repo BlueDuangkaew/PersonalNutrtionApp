@@ -9,6 +9,7 @@ from db.manager.food import find_food_name
 
 __author__ = "Blue"
 
+#generate the goal report
 def generate_report_by_goal(
         dates: list[datetime], nutrition_type: str, max_value: float):
     '''

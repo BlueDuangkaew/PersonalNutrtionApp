@@ -38,6 +38,7 @@ def main():
             case 3:
                 break
 
+#function to allow users to add meal
 def add_meal():
     meal_input = ui.MealtimeInput(hist_db.MEAL_TYPES)
     date, meal_type = meal_input.enter()
@@ -50,7 +51,8 @@ def add_meal():
     if not foodinput.foods:
         return
     hist_db.add_meal_to_database(date, meal_type, foodinput.foods)
-    
+
+#function to allow users to enter date for daily report    
 def make_daily_report():
     date = ui.DateInput.enter_one()
     if not date_in_db(date):
@@ -59,7 +61,7 @@ def make_daily_report():
     print(generate_daily_report(date))
     ui.print_daily_report(generate_daily_report(date))
 
-    
+#function to allow user to enter date range for target report   
 def make_target_report():
     date_range = date_range()
     valid_dates = date_range_in_db(date_range)

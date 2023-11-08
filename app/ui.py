@@ -8,7 +8,7 @@ This module contains functions for the user interface.
 '''
 
 __author__ = "Palm, Pokpong"
-        
+
 def _get_pos_num(parser: Callable, prompt: str):
     while True:
         num_str = input(prompt)
