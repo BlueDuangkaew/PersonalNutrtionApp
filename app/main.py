@@ -12,7 +12,7 @@ from db.validator.eating_history import (meal_in_db,
 from db.validator.food import food_in_db
 from report.daily import generate_daily_report
 from report.goal import generate_report_by_goal
-import ui as ui
+import ui
 
 __author__ = "Pokpong"
 
@@ -39,7 +39,7 @@ def main():
                 break
 
 def add_meal():
-    date, meal_type = ui.MealtimeInput(hist_db.MEAL_TYPES).get()
+    date, meal_type = ui.MealtimeInput(hist_db.MEAL_TYPES).enter()
     if meal_in_db(date, meal_type) and not ui.MealtimeInput.overwrite():
         return
     foodinput = ui.FoodInput(food_db.FOOD_INFO_KEYS)
@@ -51,18 +51,22 @@ def add_meal():
     hist_db.add_meal_to_database(date, meal_type, foodinput.foods)
     
 def make_daily_report():
-    date_range = ui.DateRangeInput.get()
-    if date_range_in_db(date_range):
-        # generate_daily_report(date_range[0], date_range[1])
-        print("\n\nDummy report!!!\n")
+    date = ui.DateInput.enter_one()
+    if not date_in_db(date):
+        ui.DateInput.no_info()
+        return
+    generate_daily_report(date)
+
     
 def make_target_report():
-    date_range = ui.DateRangeInput.get()
-    if not date_range_in_db(date_range):
+    date_range = date_range()
+    valid_dates = date_range_in_db(date_range)
+    if not valid_dates:
+        ui.DateInput.range_no_info()
         return
     nutrition_type, max_val = ui.ask_nutrition_type(food_db.FOOD_INFO_KEYS)
-    # generate_report_by_goal(nutrition_type, max_val)
-    print("\n\nDummy report!!!\n")
+    report_info = generate_report_by_goal(valid_dates, nutrition_type, max_val)
+    ui.print_target_report(report_info)
 
 
 if __name__ == '__main__':

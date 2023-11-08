@@ -14,7 +14,7 @@ __author__ = "Peach, Pokpong"
 
 
 # Constants
-DB_FILE = "food_database.db"
+DB_FILE = "app/food_database.db"
 _COLUMN_INFOS = {"id": "INTEGER PRIMARY KEY AUTOINCREMENT", 
                  "food_name": "TEXT NOT NULL", 
                  "calories": "REAL", 
@@ -155,7 +155,6 @@ def create_connection(db_file: str):
     except sqlite3.Error as e:
         print(f"Error: '{e}'")
         return None
-    conn.close()
     return conn
 
 #to exectue query
@@ -202,13 +201,13 @@ def add_food(food_info: dict):
         print(f"Error adding food to the database: {e}")
 
 #find food name in db
-def find_food_name(food_name: str):
+def find_food_name(food_name: str) -> dict:
     query = f"SELECT * FROM food WHERE food_name = '{food_name}'"
     rows = execute_query(query)
 
     if not rows:
         raise Exception("No matching data.")
-    return _format_rows(rows)
+    return _format_rows(rows[0])
 
 # # Example usage
 # if __name__ == "__main__":

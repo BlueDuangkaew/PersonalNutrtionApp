@@ -39,44 +39,54 @@ class DateInput():
     format = "%Y/%m/%d"
     format_prompt = "YYYY/MM/DD"
 
-    def get(self):
-        return self._parse_input(f"Enter the date ({self.format_prompt}): ")
-    
-    def _parse_input(self, prompt: str):
+    @classmethod
+    def _parse_input(cls, prompt: str):
         while True:
             date_str = input(prompt)
             try:
-                date = datetime.strptime(date_str, self.format)
+                date = datetime.strptime(date_str, cls.format)
             except ValueError:
-                print(f"Invalid date format. Please use {self.format_prompt} format.")
+                print(f"Invalid date format. Please use {cls.format_prompt} format.")
             else:
                 now = datetime.now()
                 if date > now:
                     print("The date you entered is in the future. "
-                          "Please enter a valid date.")
-                elif date < now - timedelta(days=14):
-                    print("The date you entered is more than two weeks old.")
+                            "Please enter a valid date.")
+                # elif date < now - timedelta(days=14):
+                #     print("The date you entered is more than two weeks old.")
                 else:
                     return date
+    @classmethod            
+    def enter_one(cls):
+        return cls._parse_input(f"Enter the date ({cls.format_prompt}): ")
 
-class DateRangeInput(DateInput):
-    def get(self):
+    @classmethod  
+    def enter_range(cls):
         while True:
-            start_date = super()._parse_input(f"Enter the start date {self.format_prompt}: ")
-            end_date = super()._parse_input(f"Enter the end date {self.format_prompt}: ")
+            start_date = cls._parse_input(f"Enter the start date {cls.format_prompt}: ")
+            end_date = cls._parse_input(f"Enter the end date {cls.format_prompt}: ")
 
             if start_date > end_date:
                 print("The start date should be before the end date.")
             else:
                 break
-        return start_date, end_date
+        return start_date, end_date + timedelta(days=1)
 
-class MealtimeInput(DateInput):
+    @staticmethod  
+    def no_info():
+        print("The date has missing info.")
+
+    @staticmethod 
+    def range_no_info():
+        print("The all dates in the range has missing info.")
+
+
+class MealtimeInput():
     def __init__(self, mealtimes: tuple[str, ...]) -> None:
         self.mealtimes = mealtimes
 
-    def get(self) -> (datetime, str):
-        date = super().get()
+    def enter(self) -> (datetime, str):
+        date = DateInput.enter_one()
         while True:
             # Convert to lowercase for case-insensitivity
             meal = input(f"Enter meal type ({'/'.join(self.mealtimes)}): "
@@ -139,7 +149,14 @@ def ask_nutrition_type(nutrition_types: str):
             continue
 
     # Ask the user to input the limit for the chosen nutrition type
-        max_value = input(f"Enter the limit for {nutrition_type}: ")
+        max_value_str = input(f"Enter the limit for {nutrition_type}: ")
+        while True:
+            try:
+                max_value = float(max_value_str)
+            except Exception as ex:
+                max_value_str = input(f"Invalid input. PLease enter a number: ")
+            else:
+                break
         break
     return nutrition_type, max_value
 
@@ -161,3 +178,9 @@ def main_menu():
             print(f"Invalid choice. Please select {_or_list(indices)}")
         else:
             return choice - 1
+        
+def print_target_report(report_info: dict[str, dict]):
+    for k, v in report_info["header"].items():
+        print(f"{k}: {v}")
+    for date, diff in report_info["diffs"].items():
+        print(f"{date.strftime('%Y/%m/%d')} | {diff}")

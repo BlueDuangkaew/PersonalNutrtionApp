@@ -14,7 +14,7 @@ from sqlite3 import Error
 
 __author__ = "Plam, Pokpong"
 
-DB_FILE = "meal_history.db"
+DB_FILE = "app/meal_history.db"
 _COLUMN_INFOS = {"id": "INTEGER PRIMARY KEY AUTOINCREMENT", 
                  "date": "DATE", 
                  "meal_type": "TEXT", 
@@ -40,7 +40,7 @@ def create_history_database():
     column_info = (", ").join(
         [" ".join(tup) for tup in _COLUMN_INFOS.items()]
     )
-
+    print(column_info)
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     print("history init")
@@ -87,7 +87,7 @@ def retrieve_all_meals():
         raise Exception("No matching data.")
     return _format_rows(meals)
 
-def find_meal_date(date: datetime) -> list:
+def find_meal_date(date: datetime) -> list[dict]:
     '''
     Finds a meal by date and returns a meal if found.
     
