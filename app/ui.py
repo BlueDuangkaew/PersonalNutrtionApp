@@ -18,11 +18,13 @@ def _get_pos_num(parser: Callable, prompt: str):
             if (parser is int 
                     and str(err) == ("invalid literal for int() with base 10: " 
                                      f"'{num_str}'")):
-                print("Invalid value. The value must be a non-negative integer.")
+                print("Invalid value. "
+                      "The value must be a non-negative integer.")
             elif (parser is float
                     and str(err) == ("could not convert string to float: "
                                      f"'{num_str}'")):
-                print("Invalid value. The value must be a non-negative number.")
+                print("Invalid value. "
+                      "The value must be a non-negative number.")
             print(parser is int, str(err))
         else:
             if num >= 0:
@@ -48,14 +50,13 @@ class DateInput():
             try:
                 date = datetime.strptime(date_str, cls.format)
             except ValueError:
-                print(f"Invalid date format. Please use {cls.format_prompt} format.")
+                print(f"Invalid date format. "
+                      f"Please use {cls.format_prompt} format.")
             else:
-                now = datetime.now()
+                now = datetime.today()
                 if date > now:
                     print("The date you entered is in the future. "
                             "Please enter a valid date.")
-                # elif date < now - timedelta(days=14):
-                #     print("The date you entered is more than two weeks old.")
                 else:
                     return date
     @classmethod            
@@ -65,14 +66,19 @@ class DateInput():
     @classmethod  
     def enter_range(cls):
         while True:
-            start_date = cls._parse_input(f"Enter the start date {cls.format_prompt}: ")
-            end_date = cls._parse_input(f"Enter the end date {cls.format_prompt}: ")
+            start_date = cls._parse_input(
+                f"Enter the start date {cls.format_prompt}: ")
+            end_date = cls._parse_input(
+                f"Enter the end date {cls.format_prompt}: ")
 
             if start_date > end_date:
                 print("The start date should be before the end date.")
             else:
                 break
         return start_date, end_date + timedelta(days=1)
+    
+    def is_recent(date, days_limit):
+        return date >= datetime.today() - timedelta(days=days_limit)
 
     @staticmethod  
     def no_info():
@@ -84,11 +90,18 @@ class DateInput():
 
 
 class MealtimeInput():
+    days_old_limit = 30
+
     def __init__(self, mealtimes: tuple[str, ...]) -> None:
         self.mealtimes = mealtimes
 
     def enter(self) -> (datetime, str):
-        date = DateInput.enter_one()
+        while True:
+            date = DateInput.enter_one()
+            if DateInput.is_recent(date, self.days_old_limit):
+                break
+            print(f"Date entered is too old. "
+                  f"Please enter a date with {self.days_old_limit}")
         while True:
             # Convert to lowercase for case-insensitivity
             meal = input(f"Enter meal type ({'/'.join(self.mealtimes)}): "
@@ -97,7 +110,8 @@ class MealtimeInput():
             if meal in self.mealtimes:
                 return date, meal
             else:
-                print(f"Invalid meal type. Please enter {_or_list(self.mealtimes)}.")
+                print(f"Invalid meal type. "
+                      f"Please enter {_or_list(self.mealtimes)}.")
 
     def overwrite(self) -> bool:
         choice = input("A meal at this time already exists " 
@@ -118,7 +132,8 @@ class FoodInput():
         
     def getter(self):
         while True:
-            user_food = input("Enter a food item (or 'done' to finish): ").lower()
+            user_food = input(
+                "Enter a food item (or 'done' to finish): ").lower()
             if user_food == 'done':
                 if not self.foods:
                     print("No food entered. Returning to main menu.")
@@ -139,7 +154,9 @@ class FoodInput():
         food_info = {self.info_types[0]: self.foods[-1]}
         while True:
             for nutrition in self.info_types[1:]:
-                food_info.update({nutrition: _get_pos_num(float, f"\t{nutrition}: ")})
+                food_info.update({
+                    nutrition: _get_pos_num(float, f"\t{nutrition}: ")
+                    })
             if any(list(food_info.values())[1:]):
                 break
             print("Nutrition value cannot be all zero.")
@@ -158,7 +175,8 @@ def ask_nutrition_type(nutrition_types: str):
             continue
 
     # Ask the user to input the limit for the chosen nutrition type
-        max_value = _get_pos_num(float, f"Enter the limit for {nutrition_type}: ")
+        max_value = _get_pos_num(
+            float, f"Enter the limit for {nutrition_type}: ")
         break
     return nutrition_type, max_value
 
@@ -182,10 +200,32 @@ def main_menu():
             return choice - 1
         
 def print_target_report(report_info: dict[str, dict]):
+    columns_names = ("Date", "Value relative to max value")
+
+    dates, diffs = map(list, zip(*report_info["diff"].items()))
+    date_strs = [date.strftime('%Y/%m/%d') for date in dates]
+
+    def format_diff(diff):
+        if diff < 0:
+            return f"{-1*diff}% under"
+        elif diff > 0:
+            return f"{diff}% over"
+        else:
+            return "same"
+        
+    diff_strs = [format_diff(diff) for diff in diffs]
+    diff_strs.insert(0, columns_names[0])
+    spacing = max(list(map(len, date_strs)))
+    del diff_strs[0]
+    print()
     for k, v in report_info["header"].items():
         print(f"{k}: {v}")
-    for date, diff in report_info["diffs"].items():
-        print(f"{date.strftime('%Y/%m/%d')} | {diff}")
+    print()
+    header = f"{columns_names[0]:<{spacing}} | {columns_names[1]}"
+    print(header)
+    print("-"*len(header))
+    for date_str, diff_str in zip(date_strs, diff_strs):
+        print(f"{date_str:<{spacing}} | {diff_str}")
 
 def print_daily_report(report_info: tuple[datetime, dict]):
     print(f"\n{report_info[0].strftime('%Y/%m/%d')} Summary:")

@@ -151,7 +151,6 @@ def create_connection(db_file: str):
     try:
         conn = sqlite3.connect(db_file)
     except sqlite3.Error as e:
-        print(f"Error: '{e}'")
         return None
     return conn
 
@@ -168,34 +167,27 @@ def execute_query(query: str):
             connection.commit()
             return cursor.lastrowid 
     except sqlite3.Error as e:
-        print(f"Error: '{e}'")
+        pass
     finally:
         cursor.close()
 
-#prints rows
+#fetches all rows
 def fetch_all_rows(query: str):
     rows = execute_query(query)
-    print(_format_rows(rows))
+    return _format_rows(rows)
 
 #add new food to db
 def add_food(food_info: dict):
     values = tuple(food_info.values())
-    print(values)
     if (tuple(food_info.keys()) != FOOD_INFO_KEYS 
             or None in values):
-        print("Cannot add empty data.")
         return
 
     insert_query = f"""
     INSERT INTO food ({', '.join(FOOD_INFO_KEYS)})
     VALUES ('{values[0]}', {', '.join(map(str, values[1:]))});
     """
-    print(insert_query)
-    try:
-        execute_query(insert_query)
-        print(f"Food '{values[0]}' added to the database.")
-    except sqlite3.Error as e:
-        print(f"Error adding food to the database: {e}")
+    execute_query(insert_query)
 
 #find food name in db
 def find_food_name(food_name: str) -> dict:

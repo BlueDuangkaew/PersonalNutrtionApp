@@ -7,7 +7,7 @@ from datetime import datetime
 from db.manager.eating_history import find_meal_date, MEAL_TYPES
 from db.manager.food import find_food_name, FOOD_INFO_KEYS
 
-__author__ = "Blue"
+__author__ = "Blue, Pokpong"
 
 #function to create food details like nutriation etc
 def create_food_details(food_list: list):

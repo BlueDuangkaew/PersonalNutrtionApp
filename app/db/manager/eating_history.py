@@ -40,10 +40,8 @@ def create_history_database():
     column_info = (", ").join(
         [" ".join(tup) for tup in _COLUMN_INFOS.items()]
     )
-    print(column_info)
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    print("history init")
     cursor.execute(f"CREATE TABLE IF NOT EXISTS meals ({column_info})")
     conn.commit()
     conn.close()
@@ -66,7 +64,6 @@ def add_meal_to_database(date: datetime, meal_type: str, foods: list):
                    VALUES ("{date.strftime("%Y-%m-%d")}", 
                            "{meal_type}", 
                            "{", ".join(foods)}")''')
-    print("meal added.")
     conn.commit()
     conn.close()
 
