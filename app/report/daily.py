@@ -43,12 +43,7 @@ def generate_daily_report(date: datetime):
         for meal_type in MEAL_TYPES:
             all_meal.update({meal_type: create_food_details(meal_item["foods"])})
 
-    report_summary = daily_summary(all_meal)
-
-    print(f"\nToday Summary:")
-    for key, total in report_summary.items():
-        print(f"{key}: {total}")
-
+    return date, daily_summary(all_meal)
 # def _sum_daily_intake(daily_food_info: list[dict[str, float]]) -> list[float]:
 #     sum_elem_wise = (lambda lists : 
 #         [map(sum, [ls[i] for ls in lists]) for i in range(len(lists[0]))])

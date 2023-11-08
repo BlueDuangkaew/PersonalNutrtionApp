@@ -14,7 +14,7 @@ from sqlite3 import Error
 
 __author__ = "Plam, Pokpong"
 
-DB_FILE = "app/meal_history.db"
+DB_FILE = "meal_history.db"
 _COLUMN_INFOS = {"id": "INTEGER PRIMARY KEY AUTOINCREMENT", 
                  "date": "DATE", 
                  "meal_type": "TEXT", 

@@ -14,7 +14,7 @@ __author__ = "Peach, Pokpong"
 
 
 # Constants
-DB_FILE = "app/food_database.db"
+DB_FILE = "food_database.db"
 _COLUMN_INFOS = {"id": "INTEGER PRIMARY KEY AUTOINCREMENT", 
                  "food_name": "TEXT NOT NULL", 
                  "calories": "REAL", 
@@ -151,7 +151,6 @@ def create_connection(db_file: str):
     """Create a database connection to a SQLite database"""
     try:
         conn = sqlite3.connect(db_file)
-        print("SQLite Database connection successful")
     except sqlite3.Error as e:
         print(f"Error: '{e}'")
         return None
@@ -184,9 +183,8 @@ def add_food(food_info: dict):
     values = tuple(food_info.values())
     print(values)
     if (tuple(food_info.keys()) != FOOD_INFO_KEYS 
-            or None in values 
-            or 0 in values):
-        print("Invalid food information. Make sure 'food_name', 'calories', and 'sodium' are provided.")
+            or None in values):
+        print("Cannot add empty data.")
         return
 
     insert_query = f"""

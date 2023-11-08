@@ -39,8 +39,9 @@ def main():
                 break
 
 def add_meal():
-    date, meal_type = ui.MealtimeInput(hist_db.MEAL_TYPES).enter()
-    if meal_in_db(date, meal_type) and not ui.MealtimeInput.overwrite():
+    meal_input = ui.MealtimeInput(hist_db.MEAL_TYPES)
+    date, meal_type = meal_input.enter()
+    if meal_in_db(date, meal_type) and not meal_input.overwrite():
         return
     foodinput = ui.FoodInput(food_db.FOOD_INFO_KEYS)
     for food in foodinput.getter():
@@ -55,7 +56,8 @@ def make_daily_report():
     if not date_in_db(date):
         ui.DateInput.no_info()
         return
-    generate_daily_report(date)
+    print(generate_daily_report(date))
+    ui.print_daily_report(generate_daily_report(date))
 
     
 def make_target_report():
@@ -67,7 +69,6 @@ def make_target_report():
     nutrition_type, max_val = ui.ask_nutrition_type(food_db.FOOD_INFO_KEYS)
     report_info = generate_report_by_goal(valid_dates, nutrition_type, max_val)
     ui.print_target_report(report_info)
-
 
 if __name__ == '__main__':
     main()

@@ -9,7 +9,7 @@ This module contains functions for the user interface.
 
 __author__ = "Palm, Pokpong"
         
-def _parse_input(parser: Callable, prompt: str):
+def _get_pos_num(parser: Callable, prompt: str):
     while True:
         num_str = input(prompt)
         try:
@@ -18,14 +18,16 @@ def _parse_input(parser: Callable, prompt: str):
             if (parser is int 
                     and str(err) == ("invalid literal for int() with base 10: " 
                                      f"'{num_str}'")):
-                print("Invalid value. The value must be a integer.")
+                print("Invalid value. The value must be a non-negative integer.")
             elif (parser is float
                     and str(err) == ("could not convert string to float: "
                                      f"'{num_str}'")):
-                print("Invalid value. The value must be a number.")
+                print("Invalid value. The value must be a non-negative number.")
             print(parser is int, str(err))
         else:
-            return num
+            if num >= 0:
+                return num
+            print("Invalid value. The value cannot be negative.")
 
 def _or_list(items: list[str]):
     str_list = items[0]
@@ -96,8 +98,9 @@ class MealtimeInput():
                 return date, meal
             else:
                 print(f"Invalid meal type. Please enter {_or_list(self.mealtimes)}.")
+
     def overwrite(self) -> bool:
-        choice = input("A meal at this time already exist" 
+        choice = input("A meal at this time already exists " 
                        "would you like to overwrite it (y/n)? ").lower()
         while True:
             match choice:
@@ -115,13 +118,15 @@ class FoodInput():
         
     def getter(self):
         while True:
-            user_food = input("Enter a food item (or 'done' to finish): ")
-            if user_food.lower() == 'done':
+            user_food = input("Enter a food item (or 'done' to finish): ").lower()
+            if user_food == 'done':
                 if not self.foods:
                     print("No food entered. Returning to main menu.")
                 else:
                     print("Foods:\n\t{}".format('\n\t'.join(self.foods)))
                 break
+            elif not user_food.isalpha():
+                print("Food name must alphabetical.")
             elif user_food in self.foods:
                 print("This food has already been inputted")
             else:
@@ -133,7 +138,7 @@ class FoodInput():
         print(f"No data on {self.foods[-1]}. Please fill in the following:")
         food_info = {self.info_types[0]: self.foods[-1]}
         for nutrition in self.info_types[1:]:
-            food_info.update({nutrition: _parse_input(float, f"\t{nutrition}: ")})
+            food_info.update({nutrition: _get_pos_num(float, f"\t{nutrition}: ")})
         return food_info
 
 def ask_nutrition_type(nutrition_types: str):
@@ -149,14 +154,7 @@ def ask_nutrition_type(nutrition_types: str):
             continue
 
     # Ask the user to input the limit for the chosen nutrition type
-        max_value_str = input(f"Enter the limit for {nutrition_type}: ")
-        while True:
-            try:
-                max_value = float(max_value_str)
-            except Exception as ex:
-                max_value_str = input(f"Invalid input. PLease enter a number: ")
-            else:
-                break
+        max_value = _get_pos_num(f"Enter the limit for {nutrition_type}: ")
         break
     return nutrition_type, max_value
 
@@ -173,7 +171,7 @@ def main_menu():
         indices.append(str(i + 1))
     while True:
         # Prompt the user to select an option
-        choice = _parse_input(int, f"Select an option ({'/'.join(indices)}): ")
+        choice = _get_pos_num(int, f"Select an option ({'/'.join(indices)}): ")
         if str(choice) not in indices:
             print(f"Invalid choice. Please select {_or_list(indices)}")
         else:
@@ -184,3 +182,8 @@ def print_target_report(report_info: dict[str, dict]):
         print(f"{k}: {v}")
     for date, diff in report_info["diffs"].items():
         print(f"{date.strftime('%Y/%m/%d')} | {diff}")
+
+def print_daily_report(report_info: tuple[datetime, dict]):
+    print(f"\n{report_info[0].strftime('%Y/%m/%d')} Summary:")
+    for key, total in report_info[1].items():
+        print(f"{key}: {total}")
