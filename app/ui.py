@@ -137,8 +137,12 @@ class FoodInput():
     def new_type(self):
         print(f"No data on {self.foods[-1]}. Please fill in the following:")
         food_info = {self.info_types[0]: self.foods[-1]}
-        for nutrition in self.info_types[1:]:
-            food_info.update({nutrition: _get_pos_num(float, f"\t{nutrition}: ")})
+        while True:
+            for nutrition in self.info_types[1:]:
+                food_info.update({nutrition: _get_pos_num(float, f"\t{nutrition}: ")})
+            if any(list(food_info.values())[1:]):
+                break
+            print("Nutrition value cannot be all zero.")
         return food_info
 
 def ask_nutrition_type(nutrition_types: str):

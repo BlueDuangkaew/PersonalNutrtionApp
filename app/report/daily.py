@@ -41,5 +41,4 @@ def generate_daily_report(date: datetime):
     #catagorize
     for meal_item, meal_type in zip(meal_data, MEAL_TYPES):
         all_meal.update({meal_type: create_food_details(meal_item["foods"])})
-    print(all_meal)
     return date, daily_summary(all_meal)
