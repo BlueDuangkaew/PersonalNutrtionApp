@@ -1,0 +1,10 @@
+User should enter what they ate for breakfast, lunch, dinner, and/or snack
+on a particular date. This can include multiple different foods. User needs to type in the date in a consistant format yyyy/mm/dd
+
+User can request a nutrition report for a particular date. This should list
+the contents of meals, the total calories/fat/carbs/sodium for each meal, and
+the total for the day.
+
+Users can enter targets for daily calories, fat, carbs and sodium. The user should also enter a date range. The
+system will print a report of all meals in that range that exceeded one or
+more of these targets.
