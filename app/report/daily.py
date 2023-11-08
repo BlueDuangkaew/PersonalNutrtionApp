@@ -9,6 +9,7 @@ from db.manager.food import find_food_name, FOOD_INFO_KEYS
 
 __author__ = "Blue"
 
+#function to create food details like nutriation etc
 def create_food_details(food_list: list):
     #initialize
     meal_summary = {'foods': food_list}
@@ -21,6 +22,7 @@ def create_food_details(food_list: list):
             
     return meal_summary
 
+#summerize the daily nutriation
 def daily_summary(all_meals: dict[str, dict]):
     #Add the sumary to the dict 
     today_summary = {}
@@ -31,6 +33,7 @@ def daily_summary(all_meals: dict[str, dict]):
     
     return today_summary
 
+#function to generate the report
 def generate_daily_report(date: datetime):
     #initialize dict
     all_meal = {}
