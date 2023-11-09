@@ -228,6 +228,7 @@ def print_target_report(report_info: dict[str, dict]):
         print(f"{date_str:<{spacing}} | {diff_str}")
 
 def print_daily_report(report_info: tuple[datetime, dict]):
+    spacing = max(map(len, report_info[1]))
     print(f"\n{report_info[0].strftime('%Y/%m/%d')} Summary:")
     for key, total in report_info[1].items():
-        print(f"{key}: {total}")
+        print(f"{key:<{spacing}}: {total}")
