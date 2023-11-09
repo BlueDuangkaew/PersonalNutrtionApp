@@ -31,11 +31,11 @@ def generate_report_by_goal(
         food_names = [food for meal in daily_meals for food in meal["foods"]]
         nutrition_sum = sum([find_food_name(food_name)[nutrition_type] 
                              for food_name in food_names])
-        
         diff.update({date: (nutrition_sum/max_value * 100) - 100})
+        
     report_info = {
         "header": {"Nutrition type": nutrition_type, "Max value": max_value}, 
         "diff": diff
-        }
+    }
 
     return report_info
