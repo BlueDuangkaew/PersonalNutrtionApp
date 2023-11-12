@@ -15,21 +15,22 @@ def _get_pos_num(parser: Callable, prompt: str):
         try:
             num = parser(num_str)
         except ValueError as err:
+            raw_str = num_str.encode('unicode_escape').decode()
             if (parser is int 
                     and str(err) == ("invalid literal for int() with base 10: " 
-                                     f"'{num_str}'")):
-                print("Invalid value. "
-                      "The value must be a non-negative integer.")
+                                     f"'{raw_str}'")):
+                print("\n**Invalid value. "
+                      "The value must be a non-negative integer.**\n")
+                
             elif (parser is float
                     and str(err) == ("could not convert string to float: "
-                                     f"'{num_str}'")):
-                print("Invalid value. "
-                      "The value must be a non-negative number.")
-            print(parser is int, str(err))
+                                     f"'{raw_str}'")):
+                print("\n**Invalid value. "
+                      "The value must be a non-negative number.**\n")
         else:
             if num >= 0:
                 return num
-            print("Invalid value. The value cannot be negative.")
+            print("\n**Invalid value. The value cannot be negative.**\n")
 
 def _or_list(items: list[str]):
     str_list = items[0]
@@ -50,13 +51,13 @@ class DateInput():
             try:
                 date = datetime.strptime(date_str, cls.format)
             except ValueError:
-                print(f"Invalid date format. "
-                      f"Please use {cls.format_prompt} format.")
+                print(f"\n**Invalid date format. "
+                      f"Please use {cls.format_prompt} format.**\n")
             else:
                 now = datetime.today()
                 if date > now:
-                    print("The date you entered is in the future. "
-                            "Please enter a valid date.")
+                    print("\n**The date you entered is in the future. "
+                          "Please enter a valid date.**\n")
                 else:
                     return date
     @classmethod            
@@ -72,7 +73,7 @@ class DateInput():
                 f"Enter the end date {cls.format_prompt}: ")
 
             if start_date > end_date:
-                print("The start date should be before the end date.")
+                print("\n**The start date should be before the end date.**\n")
             else:
                 break
         return start_date, end_date + timedelta(days=1)
@@ -82,26 +83,36 @@ class DateInput():
 
     @staticmethod  
     def no_info():
-        print("The date has missing info.")
+        print("\n**The date has missing info.**\n")
 
     @staticmethod 
     def range_no_info():
-        print("The all dates in the range has missing info.")
+        print("\n**The all dates in the range has missing info.**\n")
 
 
-class MealtimeInput():
-    days_old_limit = 30
+class MealInput():
+    days_old_limit = 30    
 
-    def __init__(self, mealtimes: tuple[str, ...]) -> None:
+    def __init__(
+            self, 
+            mealtimes: tuple[str, ...],                      
+            food_name_key: str,  
+            types_key: tuple[str, ...], 
+            units: tuple[str, ...]) -> None:
         self.mealtimes = mealtimes
+        self.food_name_key = food_name_key
+        self.types_key = types_key
+        self.units = units
+        self.foods = []
 
-    def enter(self) -> (datetime, str):
+    def enter_time(self) -> (datetime, str):
         while True:
             date = DateInput.enter_one()
             if DateInput.is_recent(date, self.days_old_limit):
                 break
-            print(f"Date entered is too old. "
-                  f"Please enter a date with {self.days_old_limit}")
+            print(f"\n**Date entered is too old. "
+                  f"Please enter a date within "
+                  f"{self.days_old_limit} days.**\n")
         while True:
             # Convert to lowercase for case-insensitivity
             meal = input(f"Enter meal type ({'/'.join(self.mealtimes)}): "
@@ -110,8 +121,8 @@ class MealtimeInput():
             if meal in self.mealtimes:
                 return date, meal
             else:
-                print(f"Invalid meal type. "
-                      f"Please enter {_or_list(self.mealtimes)}.")
+                print(f"\n**Invalid meal type. "
+                      f"Please enter {_or_list(self.mealtimes)}.**\n")
 
     def overwrite(self) -> bool:
         choice = input("A meal at this time already exists " 
@@ -125,42 +136,49 @@ class MealtimeInput():
                 case _:
                     choice = input("Invalid input. Enter y or n: ")
 
-class FoodInput():
-    def __init__(self, info_types: tuple[str, ...]) -> None:
-        self.info_types = info_types
-        self.foods = []
-        
-    def getter(self):
+    def enter_food(self):
+        print("\nCommands:\n"
+              "\t'done' to finish and save\n"
+              "\t'cancel' to cancel")
         while True:
             user_food = input(
-                "Enter a food item (or 'done' to finish): ").lower()
-            if user_food == 'done':
+                "Enter a food item: ").lower()
+            if user_food == "done":
                 if not self.foods:
-                    print("No food entered. Returning to main menu.")
+                    print("\n**Warning no food entered.**\n")
                 else:
-                    print("Foods:\n\t{}".format('\n\t'.join(self.foods)))
+                    print("\nFood items:\n\t{}".format(
+                        '\n\t'.join(self.foods)))
+                print("Saving...")
                 break
+            elif user_food == "cancel":
+                print("\nProcess canceled. No meal added.\n")
+                raise Exception("cancelled")
             elif not all(word.isalpha() for word in user_food.split(" ")):
-                print("Food name must alphabetical. Space is allowed")
+                print("\n**Food name must alphabetical. Space is allowed.**\n")
             elif user_food in self.foods:
-                print("This food has already been inputted")
+                print("\nThis food has already been inputted\n")
             else:
                 self.foods.append(user_food)
                 yield user_food
                 print(f"{user_food} added.")
 
-    def new_type(self):
+    def new_food_type(self):
+        summary_info = {self.food_name_key: self.foods[-1]}
+        units = [f"({unit})" for unit in self.units]
+        spacings = [max(map(len, lst)) for lst in (self.types_key, units)]
         print(f"No data on {self.foods[-1]}. Please fill in the following:")
-        food_info = {self.info_types[0]: self.foods[-1]}
         while True:
-            for nutrition in self.info_types[1:]:
-                food_info.update({
-                    nutrition: _get_pos_num(float, f"\t{nutrition}: ")
-                    })
-            if any(list(food_info.values())[1:]):
+            types_info = [
+                _get_pos_num(
+                    float, f"\t{k:<{spacings[0]}} {unit:^{spacings[1]}}: ")     
+                for k, unit in zip(self.types_key, units)
+            ]
+            if any(types_info):
                 break
-            print("Nutrition value cannot be all zero.")
-        return food_info
+            print("\n**Nutrition value cannot be all zero.**\n")
+        summary_info.update(dict(zip(self.types_key, types_info)))
+        return summary_info
 
 def ask_nutrition_type(nutrition_types: str):
     while True:
@@ -170,8 +188,8 @@ def ask_nutrition_type(nutrition_types: str):
 
     # Check if the input is valid
         if nutrition_type not in nutrition_types:
-            print(f"Invalid nutrition type." 
-                  f"Please enter {_or_list(nutrition_types)}")
+            print(f"\n**Invalid nutrition type." 
+                  f"Please enter {_or_list(nutrition_types)}.**\n")
             continue
 
     # Ask the user to input the limit for the chosen nutrition type
@@ -195,8 +213,9 @@ def main_menu():
         # Prompt the user to select an option
         choice = _get_pos_num(int, f"Select an option ({'/'.join(indices)}): ")
         if str(choice) not in indices:
-            print(f"Invalid choice. Please select {_or_list(indices)}")
+            print(f"\n**Invalid choice. Please select {_or_list(indices)}.**\n")
         else:
+            print("\n")
             return choice - 1
         
 def print_target_report(report_info: dict[str, dict]):

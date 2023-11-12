@@ -37,17 +37,22 @@ def main():
 
 #function to allow users to add meal
 def add_meal():
-    meal_input = ui.MealtimeInput(hist_db.MEAL_TYPES)
-    date, meal_type = meal_input.enter()
+    meal_input = ui.MealInput(
+        hist_db.MEAL_TYPES,         food_db.FOOD_INFO_KEYS[0], 
+        food_db.FOOD_INFO_KEYS[1:], food_db.NUTRITION_UNITS)
+    date, meal_type = meal_input.enter_time()
+
     if meal_in_db(date, meal_type) and not meal_input.overwrite():
         return
-    foodinput = ui.FoodInput(food_db.FOOD_INFO_KEYS)
-    for food in foodinput.getter():
-        if not food_in_db(food):
-            food_db.add_food(foodinput.new_type())
-    if not foodinput.foods:
-        return
-    hist_db.add_meal_to_database(date, meal_type, foodinput.foods)
+    try:
+        for food in meal_input.enter_food():
+            if not food_in_db(food):
+                food_db.add_food(meal_input.new_food_type())
+    except Exception as ex:
+        if str(ex) != "cancelled":
+            print(str(ex))
+    else:
+        hist_db.upsert_meal(date, meal_type, meal_input.foods)
 
 #function to allow users to enter date for daily report    
 def make_daily_report():

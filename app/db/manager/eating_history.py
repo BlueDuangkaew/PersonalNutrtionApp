@@ -26,7 +26,10 @@ def _format_rows(rows: list[tuple]) -> list[dict]:
     # This function formats the a row of data from the database
     def format_row(row):
         row = dict(zip(_MEAL_INFO_TYPES, row[1:]))
-        row["foods"] = row["foods"].split(", ")
+        if row["foods"]:
+            row["foods"] = row["foods"].split(", ")
+        else:
+            row["foods"] = []
         return row
 
     if isinstance(rows, tuple):
@@ -42,12 +45,15 @@ def create_history_database():
     )
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute(f"CREATE TABLE IF NOT EXISTS meals ({column_info})")
+    cursor.execute(
+        f"""CREATE TABLE IF NOT EXISTS meals (
+            {column_info}
+        )""")
     conn.commit()
     conn.close()
 
 # Function to add a meal to the database
-def add_meal_to_database(date: datetime, meal_type: str, foods: list):
+def upsert_meal(date: datetime, meal_type: str, foods: list):
     '''
     Adds a meal to the history database
 
@@ -63,7 +69,9 @@ def add_meal_to_database(date: datetime, meal_type: str, foods: list):
     cursor.execute(f'''INSERT INTO meals ({", ".join(_MEAL_INFO_TYPES)}) 
                    VALUES ("{date.strftime("%Y-%m-%d")}", 
                            "{meal_type}", 
-                           "{", ".join(foods)}")''')
+                           "{", ".join(foods)}") 
+                   ON CONFLICT({", ".join(_MEAL_INFO_TYPES[:2])})
+                   DO UPDATE SET {"foods"}=excluded.{"foods"}''')
     conn.commit()
     conn.close()
 

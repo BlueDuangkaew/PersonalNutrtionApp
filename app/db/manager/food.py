@@ -15,13 +15,17 @@ __author__ = "Peach, Pokpong"
 
 # Constants
 DB_FILE = "food_database.db"
-_COLUMN_INFOS = {"id": "INTEGER PRIMARY KEY AUTOINCREMENT", 
-                 "food_name": "TEXT NOT NULL UNIQUE", 
-                 "calories": "REAL", 
-                 "fat": "REAL", 
-                 "carbs": "REAL", 
-                 "sodium": "REAL"}
+_COLUMN_INFOS = {
+    "id": {"attr": "INTEGER PRIMARY KEY AUTOINCREMENT"}, 
+    "food_name": {"attr": "TEXT NOT NULL UNIQUE"}, 
+    "calories": {"attr": "REAL", "unit": "cal"}, 
+    "fat": {"attr": "REAL", "unit": "g"}, 
+    "carbs": {"attr": "REAL", "unit": "g"}, 
+    "sodium": {"attr": "REAL", "unit": "mg"}
+}
 FOOD_INFO_KEYS = tuple(_COLUMN_INFOS.keys())[1:]
+NUTRITION_UNITS = tuple(v["unit"] for v in _COLUMN_INFOS.values() 
+                        if "unit" in v)
 
 # This function formats the a row of data from the database
 def _format_rows(rows: list[tuple]) -> list[dict]:
@@ -38,7 +42,7 @@ def _format_rows(rows: list[tuple]) -> list[dict]:
 def create_food_table():
     create_table_query = f"""
             CREATE TABLE IF NOT EXISTS food (
-            {', '.join([f"{k} {v}" for k, v in _COLUMN_INFOS.items()])}
+            {', '.join([f"{k} {v['attr']}" for k, v in _COLUMN_INFOS.items()])}
             );
         """
     execute_query(create_table_query)
