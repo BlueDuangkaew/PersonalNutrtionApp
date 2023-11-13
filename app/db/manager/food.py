@@ -98,6 +98,7 @@ def create_connection(db_file: str):
 
 #to exectue query
 def execute_query(query: str):
+    """Query for connection"""
     connection = create_connection(DB_FILE)
     cursor = connection.cursor()
     try:
@@ -115,11 +116,13 @@ def execute_query(query: str):
 
 #fetches all rows
 def fetch_all_rows(query: str):
+    """function to get all the rows in table in case want to print"""
     rows = execute_query(query)
     return _format_rows(rows)
 
 #add new food to db
 def add_food(food_info: dict):
+    """add new food into the db"""
     values = tuple(food_info.values())
     if (tuple(food_info.keys()) != FOOD_INFO_KEYS 
             or None in values):
@@ -133,6 +136,7 @@ def add_food(food_info: dict):
 
 #find food name in db
 def find_food_name(food_name: str) -> dict:
+    """find the food name in the db"""
     query = f"SELECT * FROM food WHERE food_name = '{food_name}'"
     rows = execute_query(query)
 
@@ -141,6 +145,7 @@ def find_food_name(food_name: str) -> dict:
     return _format_rows(rows[0])
 
 def print_all_data():
+    """print to see the data in food database"""
     query = "SELECT * FROM food"
     rows = execute_query(query)
     formatted_rows = _format_rows(rows)
