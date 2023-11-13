@@ -27,8 +27,7 @@ def generate_report_by_goal(
             the maximum amount of the nutrition typr
     
     Returns:
-        report_info
-            A dictionary conatining "Nutrition Type, Max Value, and Difference"
+        A dictionary conatining "Nutrition Type, Max Value, and Difference"
     '''
     
     diff = {}
