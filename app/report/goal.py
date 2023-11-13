@@ -1,8 +1,13 @@
 '''
-nutrition_report_byGoal.py
+goal.py
 
 This module contains functions for reporting nutrition from the user goal set
+
+Functions:
+    generate_report_by_goal
+
 '''
+
 from datetime import datetime
 from db.manager.eating_history import find_meal_date
 from db.manager.food import find_food_name
@@ -13,16 +18,17 @@ __author__ = "Blue, Pokpong"
 def generate_report_by_goal(
         dates: list[datetime], nutrition_type: str, max_value: float):
     '''
-    <<function brief description>>
-
     Arguments:
+        dates:
+            a date range of start and end
         nutrition_type:
-            <<brief description>> 
+            calories, sodium, fats, carbohydrates
         max_value:
-            <<brief description>> 
+            the maximum amount of the nutrition typr
     
     Returns:
-        <<brief description>> 
+        report_info
+            A dictionary conatining "Nutrition Type, Max Value, and Difference"
     '''
     
     diff = {}
