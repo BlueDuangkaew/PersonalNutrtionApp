@@ -128,13 +128,12 @@ class MealInput():
         choice = input("A meal at this time already exists " 
                        "would you like to overwrite it (y/n)? ").lower()
         while True:
-            match choice:
-                case 'y':
-                    return True
-                case 'n':
-                    return False
-                case _:
-                    choice = input("Invalid input. Enter y or n: ")
+            if choice == "y":
+                return True
+            elif choice == "n":
+                return False
+            else:
+                choice = input("Invalid input. Enter y or n: ")
 
     def enter_food(self):
         print("\nCommands:\n"

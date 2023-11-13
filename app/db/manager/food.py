@@ -74,7 +74,9 @@ def fill_in_table(csv_file_path: str):
         next(reader)  # Skip the header row
         for row in reader:
             try:
-                cursor.execute("INSERT OR IGNORE INTO food (food_name, calories, fat, carbs, sodium) VALUES (?, ?, ?, ?, ?)", row)
+                cursor.execute(f"""INSERT OR IGNORE INTO food 
+                               ({'.'.join(FOOD_INFO_KEYS[1:])}) 
+                               VALUES (?, ?, ?, ?, ?)""", row)
             except sqlite3.Error as e:
                 print(f"Error inserting row: {row} - {str(e)}")
 

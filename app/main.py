@@ -25,15 +25,14 @@ def main():
     # Create an infinite loop for the main menu
     while True:
         opt = ui.main_menu()
-        match opt:
-            case 0:
-                add_meal()
-            case 1:
-                make_daily_report()
-            case 2:
-                make_target_report()
-            case 3:
-                break
+        if opt == 0:
+            add_meal()
+        elif opt == 1:
+            make_daily_report()
+        elif opt == 2:
+            make_target_report()
+        elif opt == 3:
+            break
 
 #function to allow users to add meal
 def add_meal():
