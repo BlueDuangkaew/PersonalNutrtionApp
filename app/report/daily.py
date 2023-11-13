@@ -1,8 +1,14 @@
 '''
-nutrition_report_byDate.py
+daily.py
 
 This module contains functions for reporting nutrition from a date range
+
+Functions:
+    create_food_details
+    daily_summary
+    generate_daily_report
 '''
+
 from datetime import datetime
 from db.manager.eating_history import (find_meal_date, 
                                        MEAL_TYPES)
