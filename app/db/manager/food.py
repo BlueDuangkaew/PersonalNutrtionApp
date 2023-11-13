@@ -68,18 +68,20 @@ def fill_in_table(csv_file_path: str):
     db_file = DB_FILE  
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
-
-    with open(csv_file_path, 'r') as file:
-        reader = csv.reader(file)
-        next(reader)  # Skip the header row
-        for row in reader:
-            try:
-                cursor.execute(f"""INSERT OR IGNORE INTO food 
-                               ({'.'.join(FOOD_INFO_KEYS[1:])}) 
-                               VALUES (?, ?, ?, ?, ?)""", row)
-            except sqlite3.Error as e:
-                print(f"Error inserting row: {row} - {str(e)}")
-
+    try:
+        with open(csv_file_path, 'r') as file:
+            reader = csv.reader(file)
+            next(reader)  # Skip the header row
+            for row in reader:
+                row = [f"'{row[0]}'" for elem in row if isinstance(elem, str)]
+                try:
+                    cursor.execute(f"""INSERT OR IGNORE INTO food 
+                                ({', '.join(FOOD_INFO_KEYS)}) 
+                                VALUES ({', '.join(row)})""")
+                except sqlite3.Error as e:
+                    print(f"{str(e)}")
+    except IOError:
+        print(f"{csv_file_path} not found. No intial data loaded.")
     conn.commit()
     conn.close()
 

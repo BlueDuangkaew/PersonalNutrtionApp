@@ -20,7 +20,7 @@ __author__ = "Pokpong"
 def main():
     food_db.create_food_table()
     hist_db.create_history_database()
-  
+    food_db.fill_in_table("food_information.csv")
 
     # Create an infinite loop for the main menu
     while True:
