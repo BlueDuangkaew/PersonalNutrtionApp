@@ -21,8 +21,8 @@ def create_food_details(food_list: list):
 
     for food_item in food_list:
         food_details = find_food_name(food_item)
-        for nutrition in nutrition_summary:
-            nutrition_summary[nutrition] += food_details[nutrition]
+        for nutrition in FOOD_INFO_KEYS[1:]:
+            nutrition_summary[f"Total {nutrition}"] += food_details[nutrition]
             
     meal_summary.update(nutrition_summary)
     return meal_summary
