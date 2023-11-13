@@ -24,10 +24,11 @@ def generate_report_by_goal(
         nutrition_type:
             calories, sodium, fats, carbohydrates
         max_value:
-            the maximum amount of the nutrition typr
+            the maximum amount of the nutrition type
     
     Returns:
-        A dictionary conatining "Nutrition Type, Max Value, and Difference"
+        report_info
+            A dictionary conatining "Nutrition Type, Max Value, and Difference"
     '''
     
     diff = {}
