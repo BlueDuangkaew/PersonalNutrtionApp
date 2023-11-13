@@ -23,7 +23,7 @@ _MEAL_INFO_TYPES = tuple(_COLUMN_INFOS.keys())[1:]
 MEAL_TYPES = ("breakfast", "lunch", "dinner")
 
 def _format_rows(rows: list[tuple]) -> list[dict]:
-    # This function formats the a row of data from the database
+    '''Formats the a row of data from the database'''
     def format_row(row):
         row = dict(zip(_MEAL_INFO_TYPES, row[1:]))
         if row["foods"]:
@@ -38,8 +38,9 @@ def _format_rows(rows: list[tuple]) -> list[dict]:
         rows = [format_row(row) for row in rows]
     return rows
 
-# Function to create the SQLite database and table
+
 def create_history_database():
+    '''Create the SQLite database and table'''
     column_info = (", ").join(
         [" ".join(tup) for tup in _COLUMN_INFOS.items()]
     )
