@@ -47,7 +47,8 @@ def create_history_database():
     cursor = conn.cursor()
     cursor.execute(
         f"""CREATE TABLE IF NOT EXISTS meals (
-            {column_info}
+            {column_info},
+            UNIQUE ({", ".join(_MEAL_INFO_TYPES[:2])})
         )""")
     conn.commit()
     conn.close()
