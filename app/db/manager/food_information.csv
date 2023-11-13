@@ -1,0 +1,54 @@
+food_name,calories,fat,carbs,sodium
+apple,52,0.2,14,1
+banana,89,0.3,23,1
+pear,57,0.1,15,1
+mango,60,0.4,15,2
+pineapple,50,0.1,13,1
+kiwi,61,0.5,15,3
+watermelon,30,0.2,7.6,1
+pomegranate,83,1.2,19,3
+papaya,43,0.3,11,1
+plum,46,0.3,11.4,0
+peach,39,0.3,10,0
+grapes,69,0.2,18,2
+cherries,50,0.3,12,3
+raspberries,52,0.7,12,1
+blackberries,43,0.5,10,1
+cranberries,46,0.1,12,2
+gooseberries,44,0.6,10,1
+lychee,66,0.4,17,1
+figs,74,0.3,19.2,0
+dates,282,0.4,75,1
+prunes,240,0.4,64,2
+apricot,48,0.4,11,1
+nectarine,44,0.3,10.6,0
+coconut water,19,0.2,4.4,105
+coconut milk,230,24,6,25
+almond milk,15,1.1,0.6,150
+soy milk,54,1.8,6,44
+rice milk,47,1,9.1,86
+oat milk,50,1.5,9.4,92
+hazelnut milk,29,2.8,1.2,12
+cashew milk,25,2,1.4,5
+macadamia milk,95,50,1,5.2
+pea protein milk,120,70,0.1,4.5
+flax milk,50,25,2.5,2.5
+hemp milk,125,60,5,4.5
+potato,6,77,17,0.1
+yam,21,118,28,0.2
+bok choy,65,13,2.2,0.2
+cabbage,18,25,6,0.1
+brussels sprouts,25,43,9,0.3
+collard greens,27,32,5.9,0.6
+mustard greens,20,27,4.7,0.4
+seaweed,233,45,9.1,0.6
+turnip,67,28,6.4,0.1
+radish,39,16,3.4,0.1
+leek,20,61,14.2,0.3
+celery,80,16,3,0.2
+artichoke,120,64,14.3,0.4
+asparagus,6,20,3.7,0.2
+green beans,13,31,7,0.1
+carrot,88,41,10,0.2
+beet,35,43,10,0.2
+sweet potato,76,12,23,23
