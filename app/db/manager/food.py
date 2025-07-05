@@ -73,7 +73,7 @@ def fill_in_table(csv_file_path: str):
             reader = csv.reader(file)
             next(reader)  # Skip the header row
             for row in reader:
-                row = [f"'{row[0]}'" for elem in row if isinstance(elem, str)]
+                row = [f"'{elem}'" for elem in row if isinstance(elem, str)]
                 try:
                     cursor.execute(f"""INSERT OR IGNORE INTO food 
                                 ({', '.join(FOOD_INFO_KEYS)}) 
